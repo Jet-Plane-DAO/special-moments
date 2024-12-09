@@ -785,10 +785,10 @@
 "@isaacs/string-locale-compare@^1.1.0":
   version "1.1.0"
 
-"@jetplane/velocity-tools@^1.0.188":
-  version "1.0.188"
-  resolved "https://registry.npmjs.org/@jetplane/velocity-tools/-/velocity-tools-1.0.188.tgz"
-  integrity sha512-0kgqhElmFO3ZvMn72NqjjADTFrcxGpIVtIloO7Nm8El+xG2gq7euqXwzssDJhIJt+Cx1rXFwDDcjQUkPJp4PXA==
+"@jetplane/velocity-tools@^1.0.189":
+  version "1.0.189"
+  resolved "https://registry.npmjs.org/@jetplane/velocity-tools/-/velocity-tools-1.0.189.tgz"
+  integrity sha512-IfkriwWMPkqgptkIN+Dh+0i3szBj1Ns5/n/YHANdYVk1FWhNCnNIG80LehUs29w64pYCYHgwQfdjBac75969Qw==
   dependencies:
     hexyjs "^2.1.4"
     prop-types "^15.7.2"

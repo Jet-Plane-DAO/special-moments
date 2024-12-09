@@ -1,5 +1,5 @@
 import { useAssets, useWallet } from "@meshsdk/react";
-import { CompileStatusEnum, useCompileCampaign } from "@jetplane/velocity-tools";
+import { CompileStatusEnum, toPreDefinedUnit, toUserDefinedUnit, useCompileCampaign } from "@jetplane/velocity-tools";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Layout from "../shared/Layout";
 import Image from "next/image";
@@ -20,7 +20,7 @@ enum Step {
 
 const Home = () => {
     const { wallet, connected } = useWallet();
-    const { campaignConfig, check, status, setUserDefinedInput } = useCompileCampaign();
+    const { campaignConfig, check, quote, compile, status, setUserDefinedInput } = useCompileCampaign();
     const assets = useAssets();
     const inputRef: any = useRef(null);
     const captionInputRef: any = useRef(null);
@@ -28,15 +28,20 @@ const Home = () => {
     const [frameInput, setFrameInput] = useState<any>(null);
     const [pfpInput, setPfpInput] = useState<any>(null);
     const [captionInput, setCaptionInput] = useState<any>(null);
-    const [step, setStep] = useState(Step.CAPTION);
+    const [step, setStep] = useState(Step.IMAGE);
     const [frames, setFrames] = useState<any[]>([]);
+    const [quoteResponse, setQuoteResponse] = useState<any>(null);
 
     const [myAssets, setMyAssets] = useState<any>(null);
     const { fetchAsset } = useAsset();
 
     useEffect(() => {
         if (assets && !myAssets?.length) {
-            Promise.all(assets.slice(0, 10).map((item: Asset) => fetchAsset(item))).then((data) => {
+            Promise.all(
+                assets.slice(0, 10).map((item: Asset) => {
+                    return fetchAsset(item);
+                })
+            ).then((data) => {
                 setMyAssets(data);
             });
         }
@@ -57,6 +62,16 @@ const Home = () => {
             }
         }
     }, [campaignConfig]);
+
+    useEffect(() => {
+        if (step === Step.REVIEW) {
+            console.log(imageInput, frameInput, pfpInput, captionInput);
+            quote("postcard", [toUserDefinedUnit(imageInput?.id, "image"), toUserDefinedUnit(captionInput?.id, "caption"), toPreDefinedUnit(frameInput?.id, "frame"), `${pfpInput?.unit}`], 1).then((result) => {
+                console.log(result);
+                setQuoteResponse(result);
+            });
+        }
+    }, [step, imageInput, frameInput, pfpInput, captionInput]);
 
     {
         if (step === Step.IMAGE)
@@ -114,13 +129,13 @@ const Home = () => {
             return (
                 <Layout title="Select a PFP">
                     <div className="grid grid-cols-12 gap-5">
-                        {(myAssets || []).map(({ onchain_metadata: item }: { onchain_metadata: any }, index: any) => (
+                        {(myAssets || []).map(({ onchain_metadata: item, unit }: { onchain_metadata: any; unit: string }, index: any) => (
                             <WaletAsset
                                 item={item}
                                 key={index}
                                 action={{
                                     action: (item: any) => {
-                                        setPfpInput(item);
+                                        setPfpInput({ ...item, unit });
                                         setStep(Step.CAPTION);
                                         return null;
                                     },
@@ -167,19 +182,28 @@ const Home = () => {
                 <Layout title="Enter a caption">
                     <div className="grid grid-cols-12 gap-5 h-[600px]">
                         <div className="col-span-8">
-                            {
-                                // TODO: Compile preview from inputs
-                            }
-                            {
-                                // TODO: Display mint quote
-                            }
+                            {quoteResponse && (
+                                <div className="grid grid-cols-12 gap-5">
+                                    <div className="col-span-8">
+                                        {
+                                            // TODO: Display preview image
+                                        }
+                                        <Image src={quoteResponse?.quote?.preview} width={400} height={400} alt="Preview" />
+                                    </div>
+                                    <div className="col-span-4">
+                                        <div className="card">
+                                            <div className="card-body">
+                                                <h2 className="card-title">Mint Quote</h2>
+                                                <p>Price: {quoteResponse?.quote?.fee}A</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                             <button
                                 onClick={() => {
-                                    if (campaignConfig) {
-                                        setUserDefinedInput("caption", "postcard", captionInputRef?.current?.value).then((result) => {
-                                            setCaptionInput(result);
-                                            setStep(Step.MINTING);
-                                        });
+                                    if (quoteResponse) {
+                                        compile("postcard", [{ unit: toUserDefinedUnit(imageInput?.id, "image") }, { unit: toUserDefinedUnit(captionInput?.id, "caption") }, { unit: toPreDefinedUnit(frameInput?.id, "frame") }, pfpInput]);
                                     }
                                 }}
                                 className="btn btn-primary mt-2"
