@@ -48,19 +48,7 @@ const Nav = () => {
                     <Link className="btn btn-ghost normal-case text-xl" href={"/"}>
                         {config.projectName}
                     </Link>
-                    <ul className="menu menu-horizontal px-1">
-                        <li>
-                            <Link href="/plans">Schematics</Link>
-                        </li>
-                        <li>
-                            <Link href="/modifiers">Class Perks</Link>
-                        </li>
-                        {connected && (
-                            <li>
-                                <Link href="/wallet">My Adventurers</Link>
-                            </li>
-                        )}
-                    </ul>
+                    <ul className="menu menu-horizontal px-1"></ul>
                 </div>
                 <div className="flex-none gap-2">
                     <div className="dropdown dropdown-end">

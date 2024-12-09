@@ -15,19 +15,19 @@ import { LoadingState } from "../components/shared/LoadingState";
 config.autoAddCss = false;
 
 export default function App({ Component, pageProps }: AppProps) {
-  const theme = "night";
-  useEffect(() => {
-    const body = document.body;
-    body.setAttribute("data-theme", theme);
-  }, [theme]);
-  const persistor = persistStore(store);
-  return (
-    <Provider store={store}>
-      <PersistGate loading={<LoadingState />} persistor={persistor}>
-        <MeshProvider>
-          <Component {...pageProps} />
-        </MeshProvider>
-      </PersistGate>
-    </Provider>
-  );
+    const theme = "coffee";
+    useEffect(() => {
+        const body = document.body;
+        body.setAttribute("data-theme", theme);
+    }, [theme]);
+    const persistor = persistStore(store);
+    return (
+        <Provider store={store}>
+            <PersistGate loading={<LoadingState />} persistor={persistor}>
+                <MeshProvider>
+                    <Component {...pageProps} />
+                </MeshProvider>
+            </PersistGate>
+        </Provider>
+    );
 }
