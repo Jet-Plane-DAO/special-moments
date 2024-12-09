@@ -15,7 +15,7 @@
         "@fortawesome/fontawesome-svg-core": "^6.4.2",
         "@fortawesome/free-solid-svg-icons": "^6.4.2",
         "@fortawesome/react-fontawesome": "^0.2.0",
-        "@jetplane/velocity-tools": "^1.0.185",
+        "@jetplane/velocity-tools": "^1.0.188",
         "@meshsdk/core": "1.7.31",
         "@meshsdk/react": "1.7.31",
         "@reduxjs/toolkit": "^1.9.5",
