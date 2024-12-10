@@ -66,7 +66,7 @@ const Home = () => {
     useEffect(() => {
         if (step === Step.REVIEW) {
             console.log(imageInput, frameInput, pfpInput, captionInput);
-            quote("postcard", [toUserDefinedUnit(imageInput?.id, "image"), toUserDefinedUnit(captionInput?.id, "caption"), toPreDefinedUnit(frameInput?.id, "frame"), `${pfpInput?.unit}`], 1).then((result) => {
+            quote("postcard", [toUserDefinedUnit(imageInput?.id, "image"), toUserDefinedUnit(captionInput?.id, "caption"), toPreDefinedUnit(frameInput?.id, "frames"), `${pfpInput?.unit}`], 1).then((result) => {
                 console.log(result);
                 setQuoteResponse(result);
             });
@@ -203,7 +203,7 @@ const Home = () => {
                             <button
                                 onClick={() => {
                                     if (quoteResponse) {
-                                        compile("postcard", [{ unit: toUserDefinedUnit(imageInput?.id, "image") }, { unit: toUserDefinedUnit(captionInput?.id, "caption") }, { unit: toPreDefinedUnit(frameInput?.id, "frame") }, pfpInput]);
+                                        compile("postcard", [{ unit: toUserDefinedUnit(imageInput?.id, "image") }, { unit: toUserDefinedUnit(captionInput?.id, "caption") }, { unit: toPreDefinedUnit(frameInput?.id, "frames") }, pfpInput]);
                                     }
                                 }}
                                 className="btn btn-primary mt-2"
