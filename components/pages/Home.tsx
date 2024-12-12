@@ -4,14 +4,12 @@ import {
   useCraftingCampaign,
 } from "@jetplane/velocity-tools";
 import { useEffect } from "react";
-import { Activity } from "../home/Activity";
-import { Leaderboard } from "../home/Leaderboard";
-import { CraftableMaterials } from "../home/CraftableMaterials";
-import { Stats } from "../home/Stats";
 import Layout from "../shared/Layout";
+import { LoadingState } from "../shared/LoadingState";
+import ButtonConnect from "../shared/ButtonConnect";
 
 const Home = () => {
-  const { wallet, connected } = useWallet();
+  const { wallet, connected, connecting } = useWallet();
   const { campaignConfig, check, status } = useCraftingCampaign();
 
   useEffect(() => {
@@ -21,20 +19,68 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wallet, connected]);
 
+  if (!connected && connecting) {
+    return (
+      <div className="w-full h-screen bg-gray-10  bg-teds bg-bottom ">
+        <Layout title="Connecting Wallet">
+          <div className="flex justify-center items-center">
+            <LoadingState />
+          </div>
+        </Layout>
+      </div>
+    );
+  }
+
+  if (!connected && !connecting) {
+    return (
+      <div className="w-full h-screen bg-gray-10  bg-teds bg-bottom ">
+        <Layout title="">
+          <div className="flex justify-center items-center">
+            <ButtonConnect />
+          </div>
+        </Layout>
+      </div>
+    );
+  }
+
+  if (!campaignConfig) {
+    return (
+      <div className="w-full h-screen bg-gray-10  bg-teds bg-bottom ">
+        <Layout title="Special Moments">
+          <div className="flex justify-center items-center">
+            <LoadingState />
+          </div>
+        </Layout>
+      </div>
+    );
+  }
   return (
     <Layout title="Dashboard">
-      <Activity />
-      <div className="grid grid-cols-12 gap-5 h-[600px]">
-        <div className="col-span-8">
-          <Stats />
-          <Leaderboard />
-        </div>
-        <div className="col-span-4">
-          <CraftableMaterials />
-        </div>
-      </div>
+      <div>Start Here</div>
     </Layout>
   );
 };
 
 export default Home;
+
+export async function getStaticProps() {
+  /* Fetch data here */
+  const requestHeaders: HeadersInit = new Headers();
+
+  requestHeaders.set(
+    "jetplane-api-key",
+    process.env.NEXT_PUBLIC_VELOCITY_API_KEY ?? ""
+  );
+  const res = await fetch(`${process.env.NEXT_PUBLIC_VELOCITY_API}/summary`, {
+    method: "GET",
+    headers: requestHeaders,
+  });
+  const summary = await res.json();
+
+  return {
+    props: {
+      summary,
+    },
+    revalidate: 5 * 60,
+  };
+}

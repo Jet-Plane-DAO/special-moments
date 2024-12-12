@@ -15,7 +15,7 @@ import { LoadingState } from "../components/shared/LoadingState";
 config.autoAddCss = false;
 
 export default function App({ Component, pageProps }: AppProps) {
-  const theme = "night";
+  const theme = "smoments";
   useEffect(() => {
     const body = document.body;
     body.setAttribute("data-theme", theme);
@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const persistor = persistStore(store);
   return (
     <Provider store={store}>
-      <PersistGate loading={<LoadingState />} persistor={persistor}>
+      <PersistGate loading={<div className="h-screen w-screen"><LoadingState /></div>} persistor={persistor}>
         <MeshProvider>
           <Component {...pageProps} />
         </MeshProvider>

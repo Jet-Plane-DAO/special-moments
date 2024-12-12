@@ -1,5 +1,5 @@
 const config = {
-  projectName: "Jelly Adventurers",
+  projectName: "Special moments",
   plansTitle: "Schematics",
   modifiersTitle: "Class Perks",
 };
