@@ -1,6 +1,6 @@
 const config = {
-  projectName: "Special moments",
-  plansTitle: "Schematics",
-  modifiersTitle: "Class Perks",
+    projectName: "Special Moments",
+    plansTitle: "Schematics",
+    modifiersTitle: "Class Perks",
 };
 export { config };

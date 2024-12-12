@@ -67,23 +67,13 @@ const Nav = () => {
             />
             {config.projectName}
           </Link>
-          <ul className="menu menu-horizontal px-1">
-            {/* <li>
-                        <Link href="/plans">Schematics</Link>
-                    </li>
-                    <li>
-                        <Link href="/modifiers">Class Perks</Link>
-                    </li>
-                    {connected && (
-                        <li>
-                            <Link href="/wallet">My Adventurers</Link>
-                        </li>
-                    )} */}
-          </ul>
         </div>
         <div className="flex-none gap-2">
           <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="bg-transparent cursor-pointer avatar">
+            <label
+              tabIndex={0}
+              className="bg-transparent cursor-pointer avatar"
+            >
               <div className="flex justify-center items-center ">
                 {!connected || !connectedWallet || !connectedWalletData ? (
                   <FontAwesomeIcon icon={faWallet} style={{ fontSize: 20 }} />
@@ -111,7 +101,7 @@ const Nav = () => {
                         onClick={() => {
                           return connectWallet(wallet.name);
                         }}
-                         className="hover:text-primary-content"
+                        className="hover:text-primary-content"
                       >
                         <Image
                           className="w-5 h-5"
@@ -127,7 +117,12 @@ const Nav = () => {
                 })
               ) : (
                 <li>
-                  <a onClick={() => connectWallet(null)}  className="hover:text-primary-content">Disconnect</a>
+                  <a
+                    onClick={() => connectWallet(null)}
+                    className="hover:text-primary-content"
+                  >
+                    Disconnect
+                  </a>
                 </li>
               )}
             </ul>
