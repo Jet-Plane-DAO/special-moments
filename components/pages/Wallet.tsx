@@ -61,7 +61,7 @@ const Wallet = () => {
           <progress className="progress w-56" />
         </div>
       ) : (
-        <div className="grid grid-cols-12 gap-5 h-[600px]">
+        <div className="grid grid-cols-12 gap-5 h-auto">
           <>
             <div className="col-span-9 mt-4">
               {inputPolicyId && (

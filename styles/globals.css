@@ -5,3 +5,28 @@
 body {
     @apply text-brands-500;
 }
+
+.btn-card {
+    @apply pt-[148.5%] px-0 pb-0 relative overflow-hidden w-full bg-primary;
+}
+.btn-card.frame-selected img {
+    @apply w-[calc(100%-10px)] h-[calc(100%-10px)] left-[5px] top-[5px];
+}
+
+.btn-card img{
+    @apply absolute left-0 top-0 w-full h-full object-cover;
+}
+
+.swiper-initialized.swiper  {
+    @apply pt-4;
+}
+.slider-nav {
+    @apply absolute w-full top-0;
+}
+
+.frame-aspect {
+    @apply pt-[26.25%] w-full relative;
+}
+.frame-aspect > img {
+    @apply absolute w-auto h-full object-contain top-0 left-0 mx-auto right-0;
+}
