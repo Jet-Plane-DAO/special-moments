@@ -14,9 +14,8 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { WaletAsset } from "../wallet/Asset";
 import useAsset from "../hooks/useAsset";
-import { Asset } from "@meshsdk/core";
-import { FrameSelector } from "../modules";
-import Button from "../shared/Button";
+import { Asset } from "@meshsdk/core"; 
+import { FrameHome, UploadImageHome } from "../sections";
 
 enum Step {
   IMAGE,
@@ -33,7 +32,6 @@ const Home = () => {
   const { campaignConfig, check, quote, compile, status, setUserDefinedInput } =
     useCompileCampaign();
   const assets = useAssets();
-  const inputRef: any = useRef(null);
   const captionInputRef: any = useRef(null);
   const [imageInput, setImageInput] = useState<any>(null);
   const [frameInput, setFrameInput] = useState<any>(null);
@@ -138,81 +136,35 @@ const Home = () => {
     );
   }
 
-  if (step === Step.FRAME) {
+  if (step === Step.IMAGE) {
     return (
-      <Layout
-        title="Select a frame"
-        headerComponent={
-          <Button
-            onClick={() =>
-              !frameInput ? setStep(Step.IMAGE) : setStep(Step.PFP)
-            }
-          >
-            {!frameInput ? "BACK" : "NEXT"}
-          </Button>
-        }
-      >
-        {/* <div className="grid grid-cols-12 gap-5 h-auto">
-                    {frames.map((frame, index) => (
-                        <div key={index} className="col-span-4">
-                            <Image src={frame.image?.downloadURL} width={200} height={200} alt={frame.name} />
-                            <button
-                                onClick={() => {
-                                    setFrameInput(frame);
-                                    setStep(Step.PFP);
-                                }}
-                                className="btn btn-primary mt-2"
-                            >
-                                {frame.name}
-                            </button>
-                        </div>
-                    ))}
-                </div> */}
-        <FrameSelector
-          onSelect={(frame) => {
-            setFrameInput(frame);
-            // setStep(Step.PFP);
-          }}
-          frame={frameInput}
-          frames={frames}
-        />
-      </Layout>
+      <UploadImageHome
+        setUserDefinedInput={(inputRef) => {
+          if (campaignConfig) {
+            setUserDefinedInput(
+              "image",
+              "postcard",
+              {},
+              inputRef?.current?.files[0]
+            ).then((result) => {
+              setImageInput(result);
+              setStep(Step.FRAME);
+            });
+          }
+        }}
+      />
     );
   }
 
-  if (step === Step.IMAGE) {
+  if (step === Step.FRAME) {
     return (
-      <Layout title="Upload an image">
-        <div className="grid grid-cols-12 gap-5 h-auto">
-          <div className="col-span-8">
-            <input
-              ref={inputRef}
-              className="file-input file-input-ghost w-full max-w-xs"
-              type="file"
-              accept="image/*"
-            />
-            <button
-              onClick={() => {
-                if (campaignConfig) {
-                  setUserDefinedInput(
-                    "image",
-                    "postcard",
-                    {},
-                    inputRef?.current?.files[0]
-                  ).then((result) => {
-                    setImageInput(result);
-                    setStep(Step.FRAME);
-                  });
-                }
-              }}
-              className="btn btn-primary mt-2"
-            >
-              Upload
-            </button>
-          </div>
-          <div className="col-span-4"></div>
-        </div>
-      </Layout>
+      <FrameHome
+        setFrameInput={setFrameInput}
+        setStep={setStep}
+        Step={Step}
+        frameInput={frameInput}
+        frames={frames}
+      />
     );
   }
 
