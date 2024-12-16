@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const webpack = require("webpack");
 const nextConfig = {
+    serverExternalPackages: ["@meshsdk/core", "@meshsdk/core-cst", "@meshsdk/react"],
     reactStrictMode: true,
     images: {
         remotePatterns: [
