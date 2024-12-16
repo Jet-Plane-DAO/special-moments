@@ -5,16 +5,18 @@ import "swiper/css";
 import { Chevron } from "../../icons";
 
 export interface CarouselProps extends SwiperProps {
-    renderItem: (item: any) => ReactNode
-    slides: any[]
+    renderItem: (item: any, index: number) => ReactNode
+    slides: any[];
+    mainClassname?: string
+    navAddOnClassName?: string
 }
 
 export const CarouselItem = SwiperSlide
 
-export default function Carousel({ renderItem, slides, ...props }: CarouselProps) {
+export default function Carousel({ renderItem, slides, mainClassname, navAddOnClassName, ...props }: CarouselProps) {
     const [activeIndex, setActiveIndex] = useState(0)
     return (
-        <div className='ml-0'>
+        <div className={['ml-0', mainClassname ?? ''].join(' ')}>
             <Swiper
                 spaceBetween={10}
                 slidesPerView={1.1}
@@ -31,20 +33,20 @@ export default function Carousel({ renderItem, slides, ...props }: CarouselProps
             >
                 {slides?.map((slide, i) => {
                     return ( 
-                        <SwiperSlide key={new Date().getMilliseconds + '' + i}>{renderItem(slide)}</SwiperSlide> 
+                        <SwiperSlide key={new Date().getMilliseconds + '' + i}>{renderItem(slide, i)}</SwiperSlide> 
                     )
                 })}
-                {slides.length > 4 && <Navigation count={slides.length ?? 0} currentIdx={activeIndex} />}
+                {slides.length > 4 && <Navigation className={navAddOnClassName} count={slides.length ?? 0} currentIdx={activeIndex} />}
             </Swiper>
 
         </div>
     )
 }
 
-function Navigation({ count, currentIdx = 0 }: { count: number; currentIdx?: number }) {
+function Navigation({ count, currentIdx = 0, className = "" }: { count: number; currentIdx?: number, className?: string }) {
     const swiper = useSwiper()
     return (
-        <div className="flex justify-between space-x-1" slot="container-start">
+        <div className={["flex justify-between space-x-1", className ].join(" ")} slot="container-start">
             <button onClick={() => swiper.slidePrev()} className="btn btn-primary min-h-0 h-[36px] w-10">
                 <Chevron className="rotate-180" />
             </button>

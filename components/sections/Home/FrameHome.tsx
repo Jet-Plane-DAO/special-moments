@@ -7,11 +7,12 @@ interface FrameHome {
     frameInput?: any;
     Step?: any;
     setStep: (x:any) => void;
-    setFrameInput: (x:any) => void;
+    // setFrameInput: (x:any) => void;
     frames?: Array<any>;
+    onSelect: (x: any) => void
 }
 
-export default function FrameHome({frameInput, Step, setStep, setFrameInput, frames}:FrameHome) {
+export default function FrameHome({frameInput, Step, setStep, onSelect, frames}:FrameHome) {
   return (
     <Layout
         title="Select a frame"
@@ -26,9 +27,7 @@ export default function FrameHome({frameInput, Step, setStep, setFrameInput, fra
         }
       >
         <FrameSelector
-          onSelect={(frame) => {
-            setFrameInput(frame);
-          }}
+          onSelect={onSelect}
           frame={frameInput}
           frames={frames}
         />

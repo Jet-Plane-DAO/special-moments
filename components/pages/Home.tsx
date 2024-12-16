@@ -12,10 +12,9 @@ import {
 } from "@jetplane/velocity-tools";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { WaletAsset } from "../wallet/Asset";
 import useAsset from "../hooks/useAsset";
-import { Asset } from "@meshsdk/core"; 
-import { FrameHome, UploadImageHome } from "../sections";
+import { Asset } from "@meshsdk/core";
+import { FrameHome, PFPHome, UploadImageHome } from "../sections";
 
 enum Step {
   IMAGE,
@@ -159,7 +158,7 @@ const Home = () => {
   if (step === Step.FRAME) {
     return (
       <FrameHome
-        setFrameInput={setFrameInput}
+        onSelect={(val) => setFrameInput(val)}
         setStep={setStep}
         Step={Step}
         frameInput={frameInput}
@@ -170,33 +169,15 @@ const Home = () => {
 
   if (step === Step.PFP) {
     return (
-      <Layout title="Select a PFP">
-        <div className="grid grid-cols-12 gap-5">
-          {(myAssets || []).map(
-            (
-              {
-                onchain_metadata: item,
-                unit,
-              }: { onchain_metadata: any; unit: string },
-              index: any
-            ) => (
-              <WaletAsset
-                item={item}
-                key={index}
-                action={{
-                  action: (item: any) => {
-                    setPfpInput({ ...item, unit });
-                    setStep(Step.CAPTION);
-                    return null;
-                  },
-                  status,
-                  label: () => "Select",
-                }}
-              />
-            )
-          )}
-        </div>
-      </Layout>
+      <PFPHome
+        status={status}
+        walletAssetLabel="Select"
+        walletOnAction={(item) => {
+          setPfpInput(item);
+          setStep(Step.CAPTION);
+        }}
+        assets={myAssets}
+      />
     );
   }
 
