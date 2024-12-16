@@ -30,3 +30,7 @@ body {
 .frame-aspect > img {
     @apply absolute w-auto h-full object-contain top-0 left-0 mx-auto right-0;
 }
+
+.frame-carousel .swiper-slide {
+    @apply bg-primary leading-[0];
+}
