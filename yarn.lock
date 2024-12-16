@@ -744,6 +744,14 @@
   resolved "https://registry.npmjs.org/@harmoniclabs/uint8array-utils/-/uint8array-utils-1.0.3.tgz"
   integrity sha512-MAOD0bGl3u4Ay98xRrNzwxu/UsI8oFsW/Gplry3KNUhmHhyeIH5NU+jtwtvlOYQH8eW5d6SdzqOTYWWQ7l0w+g==
 
+"@harmoniclabs/uplc@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/@harmoniclabs/uplc/-/uplc-1.3.0.tgz"
+  integrity sha512-iOn0M3ZKYAokeZYA9BPVVy4IDMRW95QbNVmEWdw78mtG0ZpYy5kXqXXa+pCOSWRtv2xAd3PxRxusOHD7GYrfcA==
+  dependencies:
+    "@harmoniclabs/bigint-utils" "^1.0.0"
+    "@harmoniclabs/uint8array-utils" "^1.0.0"
+
 "@harmoniclabs/uplc@1.2.4":
   version "1.2.4"
   resolved "https://registry.npmjs.org/@harmoniclabs/uplc/-/uplc-1.2.4.tgz"
