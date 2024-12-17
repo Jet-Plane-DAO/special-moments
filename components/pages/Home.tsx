@@ -73,15 +73,19 @@ const Home = () => {
         }
     }, [campaignConfig]);
 
+    console.log(postcardInput);
+
     useEffect(() => {
         if (step === Step.REVIEW) {
             //   console.log(imageInput, frameInput, pfpInput, captionInput);
-            quote("postcard", [toUserDefinedUnit(imageInput?.id, "image"), toUserDefinedUnit(captionInput?.id, "caption"), toPreDefinedUnit(frameInput?.id, "frames"), `${pfpInput?.unit}`], 1).then((result) => {
-                console.log(result);
-                setQuoteResponse(result);
-            });
+            quote("postcard", [toUserDefinedUnit(imageInput?.id, "image"), toUserDefinedUnit(captionInput?.id, "caption"), toPreDefinedUnit(frameInput?.id, "frames"), toPreDefinedUnit(postcardInput?.id, "postcards"), `${pfpInput?.unit}`], 1).then(
+                (result) => {
+                    console.log(result);
+                    setQuoteResponse(result);
+                }
+            );
         }
-    }, [step, imageInput, frameInput, pfpInput, captionInput]);
+    }, [step, imageInput, frameInput, pfpInput, captionInput, postcardInput]);
 
     useEffect(() => {
         if (quoteResponse?.quote?.preview) {
@@ -145,7 +149,7 @@ const Home = () => {
     }
 
     if (step === Step.POSTCARD) {
-        return <PostcardHome onSelect={(val) => setPostcardInput(val)} setStep={setStep} Step={Step} frameInput={postcardInput} frames={postcards} />;
+        return <PostcardHome onSelect={(val) => setPostcardInput(val)} setStep={setStep} Step={Step} postcardInput={postcardInput} postcards={postcards} />;
     }
 
     if (step === Step.PFP) {
