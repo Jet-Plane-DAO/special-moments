@@ -73,8 +73,6 @@ const Home = () => {
         }
     }, [campaignConfig]);
 
-    console.log(postcardInput);
-
     useEffect(() => {
         if (step === Step.REVIEW) {
             //   console.log(imageInput, frameInput, pfpInput, captionInput);
