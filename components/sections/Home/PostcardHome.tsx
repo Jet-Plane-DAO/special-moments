@@ -3,7 +3,7 @@ import { Button } from "@app/components/shared";
 import Layout from "@app/components/shared/Layout";
 import React from "react";
 
-interface FrameHome {
+interface PostcardHome {
     frameInput?: any;
     Step?: any;
     setStep: (x: any) => void;
@@ -12,9 +12,9 @@ interface FrameHome {
     onSelect: (x: any) => void;
 }
 
-export default function FrameHome({ frameInput, Step, setStep, onSelect, frames }: FrameHome) {
+export default function PostcardHome({ frameInput, Step, setStep, onSelect, frames }: PostcardHome) {
     return (
-        <Layout title="Select a frame" headerComponent={<Button onClick={() => (!frameInput ? setStep(Step.IMAGE) : setStep(Step.POSTCARD))}>{!frameInput ? "BACK" : "NEXT"}</Button>}>
+        <Layout title="Select a postcard" headerComponent={<Button onClick={() => (!frameInput ? setStep(Step.FRAME) : setStep(Step.PFP))}>{!frameInput ? "BACK" : "NEXT"}</Button>}>
             <FrameSelector onSelect={onSelect} frame={frameInput} frames={frames} />
         </Layout>
     );
