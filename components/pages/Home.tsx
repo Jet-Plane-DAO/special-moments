@@ -220,6 +220,7 @@ const Home = () => {
                                         { unit: toUserDefinedUnit(imageInput?.id, "image") },
                                         { unit: toUserDefinedUnit(captionInput?.id, "caption") },
                                         { unit: toPreDefinedUnit(frameInput?.id, "frames") },
+                                        { unit: toPreDefinedUnit(postcardInput?.id, "postcards") },
                                         pfpInput,
                                         toPrecompileInputUnit(campaignConfig.id, previewImage ?? ""),
                                     ]);
