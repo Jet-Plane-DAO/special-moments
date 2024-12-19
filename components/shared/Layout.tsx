@@ -1,15 +1,17 @@
 import { Hero } from "./Hero";
 import { Nav } from "./Nav";
 
-export default function Layout({
-  title,
-  children,
-  headerComponent
-}: {
+interface LayoutProps {
   title: string;
   children: React.ReactNode;
   headerComponent?: React.ReactNode;
-}) {
+}
+
+export default function Layout({
+  title,
+  children,
+  headerComponent = null
+}: LayoutProps) {
   return (
     <div className="w-full min-h-screen bg-mainbg relative bg-fixed bg-no-repeat bg-cover">
       <div className="absolute"></div>
