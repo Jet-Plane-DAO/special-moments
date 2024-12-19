@@ -4,18 +4,24 @@ import Layout from "@app/components/shared/Layout";
 import React from "react";
 
 interface FrameHome {
-    frameInput?: any;
-    Step?: any;
-    setStep: (x: any) => void;
-    // setFrameInput: (x:any) => void;
-    frames?: Array<any>;
-    onSelect: (x: any) => void;
+  frameInput?: any;
+  Step?: any;
+  setStep: (x: any) => void;
+  // setFrameInput: (x:any) => void;
+  frames?: Array<any>;
+  onSelect: (x: any) => void;
 }
 
-export default function FrameHome({ frameInput, Step, setStep, onSelect, frames }: FrameHome) {
-    return (
-        <Layout title="Select a frame" headerComponent={<Button onClick={() => (!frameInput ? setStep(Step.IMAGE) : setStep(Step.POSTCARD))}>{!frameInput ? "BACK" : "NEXT"}</Button>}>
-            <FrameSelector onSelect={onSelect} frame={frameInput} frames={frames} />
-        </Layout>
-    );
+export default function FrameHome({
+  frameInput,
+  onSelect,
+  frames,
+}: FrameHome) {
+  return (
+    <Layout
+      title="Select a frame"
+    >
+      <FrameSelector onSelect={onSelect} frame={frameInput} frames={frames} />
+    </Layout>
+  );
 }
