@@ -15,7 +15,7 @@ import Image from "next/image";
 import useAsset from "../hooks/useAsset";
 import { Asset } from "@meshsdk/core";
 import { FrameHome, PFPHome, UploadImageHome } from "../sections";
-// import PostcardHome from "../sections/Home/PostcardHome";
+import PostcardHome from "../sections/Home/PostcardHome";
 
 enum Step {
   IMAGE,
@@ -146,6 +146,21 @@ const Home = () => {
     );
   }
 
+  if (step === Step.FRAME) {
+    return (
+      <FrameHome
+        onSelect={(val) => {
+          setFrameInput(val);
+          setStep(Step.IMAGE);
+        }}
+        setStep={setStep}
+        Step={Step}
+        frameInput={frameInput}
+        frames={frames}
+      />
+    );
+  }
+
   if (step === Step.IMAGE) {
     return (
       <UploadImageHome
@@ -166,25 +181,20 @@ const Home = () => {
     );
   }
 
-  if (step === Step.FRAME) {
+  if (step === Step.POSTCARD) {
     return (
-      <FrameHome
-        onSelect={(val) =>{ 
-          setFrameInput(val)
-          setStep(Step.IMAGE)
+      <PostcardHome
+        onSelect={(val) => {
+            setPostcardInput(val)
+            setStep(Step.PFP)
         }}
         setStep={setStep}
         Step={Step}
-        frameInput={frameInput}
-        frames={frames}
+        postcardInput={postcardInput}
+        postcards={postcards}
       />
     );
   }
-
-
-  // if (step === Step.POSTCARD) {
-  //     return <PostcardHome onSelect={(val) => setPostcardInput(val)} setStep={setStep} Step={Step} postcardInput={postcardInput} postcards={postcards} />;
-  // }
 
   if (step === Step.PFP) {
     return (
@@ -193,17 +203,17 @@ const Home = () => {
         walletAssetLabel="Select"
         walletOnAction={(item) => {
           setPfpInput(item);
-          setStep(Step.REVIEW);
+          setStep(Step.CAPTION);
         }}
         headerCTA={{
-            label: "BACK",
-            action: () => setStep(Step.IMAGE)
+          label: "BACK",
+          action: () => setStep(Step.IMAGE),
         }}
         assets={myAssets}
       />
     );
   }
-  // SKIP THIS
+  // TODO: VEL-9 SHOULD SKIP THIS
   if (step === Step.CAPTION) {
     return (
       <Layout title="Enter a caption">
@@ -242,7 +252,7 @@ const Home = () => {
   if (step === Step.REVIEW) {
     return (
       <Layout title="Enter a caption">
-        <div className="grid grid-cols-12 gap-5 h-auto">
+        <div className="grid grid-cols-12 gap-5 h-auto pb-12">
           <div className="col-span-8">
             {quoteResponse && (
               <div className="grid grid-cols-12 gap-5">
