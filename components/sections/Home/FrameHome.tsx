@@ -1,5 +1,4 @@
 import { FrameSelector } from '@app/components/modules';
-import { Button } from '@app/components/shared';
 import Layout from '@app/components/shared/Layout';
 import React from 'react' 
 
@@ -7,7 +6,6 @@ interface FrameHome {
   frameInput?: any;
   Step?: any;
   setStep: (x: any) => void;
-  // setFrameInput: (x:any) => void;
   frames?: Array<any>;
   onSelect: (x: any) => void;
 }
