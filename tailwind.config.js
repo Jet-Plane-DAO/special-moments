@@ -11,6 +11,9 @@ module.exports = {
         brands: {
           500: "#FFF",
         },
+        mask: {
+          700: "rgba(0, 0, 0, 0.75)",
+        },
       },
     },
   },
