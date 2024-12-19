@@ -2,13 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import Layout from "@app/components/shared/Layout";
 import Image from "next/image";
 import { Upload } from "@app/components/icons";
+import { Button, ButtonHeader, ButtonHeaderProps } from "@app/components/shared";
 
 interface UploadImageHomeProps {
   setUserDefinedInput: (ref: any) => void;
+  headerCTA?: ButtonHeaderProps;
 }
 
 export default function UploadImageHome({
   setUserDefinedInput,
+  headerCTA,
 }: UploadImageHomeProps) {
   const inputRef: any = useRef(null);
   const [image, setImage] = useState<string | null>(null);
@@ -19,15 +22,13 @@ export default function UploadImageHome({
     }
   };
 
-  useEffect(() => {
-    console.dir("inputRef", image);
-    if (image) {
-      console.log(image);
-    }
-  }, [image]);
-
   return (
-    <Layout title="Upload an image">
+    <Layout
+      title="Upload an image"
+      headerComponent={
+        headerCTA ? <ButtonHeader action={headerCTA?.action} label={headerCTA.label}  /> : null
+      }
+    >
       <div className="mb-10 flex justify-center">
         <div className="flex h-auto border rounded-xl relative pt-[28%] lg:w-[60%] w-[90%] overflow-hidden">
           <label className="up-image [&>input]:hidden top-0 absolute left-0 h-full w-full">
@@ -64,6 +65,7 @@ export default function UploadImageHome({
         <button
           onClick={() => setUserDefinedInput(inputRef)}
           className="btn btn-primary mt-2"
+          disabled={!image}
         >
           Upload
         </button>

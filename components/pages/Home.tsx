@@ -16,6 +16,7 @@ import useAsset from "../hooks/useAsset";
 import { Asset } from "@meshsdk/core";
 import { FrameHome, PFPHome, UploadImageHome } from "../sections";
 import PostcardHome from "../sections/Home/PostcardHome";
+import { ButtonHeader } from "../shared";
 
 enum Step {
   IMAGE,
@@ -91,7 +92,7 @@ const Home = () => {
         "postcard",
         [
           toUserDefinedUnit(imageInput?.id, "image"),
-          toUserDefinedUnit(captionInput?.id, "caption"),
+        //   toUserDefinedUnit(captionInput?.id, "caption"),
           toPreDefinedUnit(frameInput?.id, "frames"),
           toPreDefinedUnit(postcardInput?.id, "postcards"),
           `${pfpInput?.unit}`,
@@ -185,11 +186,13 @@ const Home = () => {
     return (
       <PostcardHome
         onSelect={(val) => {
-            setPostcardInput(val)
-            setStep(Step.PFP)
+          setPostcardInput(val);
+          setStep(Step.PFP);
         }}
-        setStep={setStep}
-        Step={Step}
+        headerCTA={{
+          label: "BACK",
+          action: () => setStep(Step.IMAGE),
+        }}
         postcardInput={postcardInput}
         postcards={postcards}
       />
@@ -203,7 +206,7 @@ const Home = () => {
         walletAssetLabel="Select"
         walletOnAction={(item) => {
           setPfpInput(item);
-          setStep(Step.CAPTION);
+          setStep(Step.REVIEW);
         }}
         headerCTA={{
           label: "BACK",
@@ -216,7 +219,12 @@ const Home = () => {
   // TODO: VEL-9 SHOULD SKIP THIS
   if (step === Step.CAPTION) {
     return (
-      <Layout title="Enter a caption">
+      <Layout
+        title="Enter a caption"
+        headerComponent={
+          <ButtonHeader action={() => setStep(Step.PFP)} label={"Back"} />
+        }
+      >
         <div className="grid grid-cols-12 gap-5 h-auto">
           <div className="col-span-8">
             <input
@@ -251,7 +259,12 @@ const Home = () => {
 
   if (step === Step.REVIEW) {
     return (
-      <Layout title="Enter a caption">
+      <Layout
+        title="Preview"
+        headerComponent={
+          <ButtonHeader action={() => setStep(Step.FRAME)} label={"Cancel"} />
+        }
+      >
         <div className="grid grid-cols-12 gap-5 h-auto pb-12">
           <div className="col-span-8">
             {quoteResponse && (
@@ -282,7 +295,7 @@ const Home = () => {
                 if (quoteResponse) {
                   compile("postcard", [
                     { unit: toUserDefinedUnit(imageInput?.id, "image") },
-                    { unit: toUserDefinedUnit(captionInput?.id, "caption") },
+                    // { unit: toUserDefinedUnit(captionInput?.id, "caption") },
                     { unit: toPreDefinedUnit(frameInput?.id, "frames") },
                     { unit: toPreDefinedUnit(postcardInput?.id, "postcards") },
                     pfpInput,
