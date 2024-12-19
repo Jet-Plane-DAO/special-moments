@@ -36,7 +36,7 @@ const Home = () => {
   const [frameInput, setFrameInput] = useState<any>(null);
   const [pfpInput, setPfpInput] = useState<any>(null);
   const [captionInput, setCaptionInput] = useState<any>(null);
-  const [step, setStep] = useState(Step.IMAGE);
+  const [step, setStep] = useState(Step.FRAME);
   const [frames, setFrames] = useState<any[]>([]);
   const [quoteResponse, setQuoteResponse] = useState<any>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -135,6 +135,21 @@ const Home = () => {
     );
   }
 
+  if (step === Step.FRAME) {
+    return (
+      <FrameHome
+        onSelect={(val) =>{ 
+          setFrameInput(val)
+          setStep(Step.IMAGE)
+        }}
+        setStep={setStep}
+        Step={Step}
+        frameInput={frameInput}
+        frames={frames}
+      />
+    );
+  }
+
   if (step === Step.IMAGE) {
     return (
       <UploadImageHome
@@ -147,22 +162,10 @@ const Home = () => {
               inputRef?.current?.files[0]
             ).then((result) => {
               setImageInput(result);
-              setStep(Step.FRAME);
+              setStep(Step.PFP);
             });
           }
         }}
-      />
-    );
-  }
-
-  if (step === Step.FRAME) {
-    return (
-      <FrameHome
-        onSelect={(val) => setFrameInput(val)}
-        setStep={setStep}
-        Step={Step}
-        frameInput={frameInput}
-        frames={frames}
       />
     );
   }
@@ -174,47 +177,51 @@ const Home = () => {
         walletAssetLabel="Select"
         walletOnAction={(item) => {
           setPfpInput(item);
-          setStep(Step.CAPTION);
+          setStep(Step.REVIEW);
+        }}
+        headerCTA={{
+          label: "BACK",
+          action: () => setStep(Step.FRAME)
         }}
         assets={myAssets}
       />
     );
   }
-
-  if (step === Step.CAPTION) {
-    return (
-      <Layout title="Enter a caption">
-        <div className="grid grid-cols-12 gap-5 h-auto">
-          <div className="col-span-8">
-            <input
-              ref={captionInputRef}
-              className="textarea textarea-bordered"
-              placeholder="Enter a Caption"
-              type="textarea"
-            />
-            <button
-              onClick={() => {
-                if (campaignConfig) {
-                  setUserDefinedInput(
-                    "caption",
-                    "postcard",
-                    captionInputRef?.current?.value
-                  ).then((result) => {
-                    setCaptionInput(result);
-                    setStep(Step.REVIEW);
-                  });
-                }
-              }}
-              className="btn btn-primary mt-2"
-            >
-              Review
-            </button>
-          </div>
-          <div className="col-span-4"></div>
-        </div>
-      </Layout>
-    );
-  }
+  /** VEL-9: Remove this part */
+  // if (step === Step.CAPTION) {
+  //   return (
+  //     <Layout title="Enter a caption">
+  //       <div className="grid grid-cols-12 gap-5 h-auto">
+  //         <div className="col-span-8">
+  //           <input
+  //             ref={captionInputRef}
+  //             className="textarea textarea-bordered"
+  //             placeholder="Enter a Caption"
+  //             type="textarea"
+  //           />
+  //           <button
+  //             onClick={() => {
+  //               if (campaignConfig) {
+  //                 setUserDefinedInput(
+  //                   "caption",
+  //                   "postcard",
+  //                   captionInputRef?.current?.value
+  //                 ).then((result) => {
+  //                   setCaptionInput(result);
+  //                   setStep(Step.REVIEW);
+  //                 });
+  //               }
+  //             }}
+  //             className="btn btn-primary mt-2"
+  //           >
+  //             Review
+  //           </button>
+  //         </div>
+  //         <div className="col-span-4"></div>
+  //       </div>
+  //     </Layout>
+  //   );
+  // }
 
   if (step === Step.REVIEW) {
     return (

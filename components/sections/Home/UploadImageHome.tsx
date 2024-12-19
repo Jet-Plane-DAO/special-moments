@@ -43,13 +43,19 @@ export default function UploadImageHome({
               <h3 className="text-[32px]">Upload Image</h3>
             </div>
             {image && (
-              <Image
-                src={image}
-                height="100"
-                width="100"
-                className="absolute w-full h-full object-cover z-40"
-                alt="selected image"
-              />
+              <div className="relative h-full w-full">
+                <Image
+                  src={image}
+                  height="100"
+                  width="100"
+                  className="absolute w-full h-full object-cover z-40"
+                  alt="selected image"
+                />
+                <div className="opacity-0 hover:opacity-100 transition-opacity duration-300 flex absolute z-50 w-full h-full justify-center items-center flex-col bg-mask-700 text-[90px]">
+                  <Upload />
+                  <h3 className="text-[32px]">Upload Image</h3>
+                </div>
+              </div>
             )}
           </label>
         </div>
