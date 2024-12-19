@@ -15,10 +15,12 @@ import Image from "next/image";
 import useAsset from "../hooks/useAsset";
 import { Asset } from "@meshsdk/core";
 import { FrameHome, PFPHome, UploadImageHome } from "../sections";
+// import PostcardHome from "../sections/Home/PostcardHome";
 
 enum Step {
   IMAGE,
   FRAME,
+  POSTCARD,
   PFP,
   CAPTION,
   REVIEW,
@@ -34,10 +36,12 @@ const Home = () => {
   const captionInputRef: any = useRef(null);
   const [imageInput, setImageInput] = useState<any>(null);
   const [frameInput, setFrameInput] = useState<any>(null);
+  const [postcardInput, setPostcardInput] = useState<any>(null);
   const [pfpInput, setPfpInput] = useState<any>(null);
   const [captionInput, setCaptionInput] = useState<any>(null);
   const [step, setStep] = useState(Step.FRAME);
   const [frames, setFrames] = useState<any[]>([]);
+  const [postcards, setPostcards] = useState<any[]>([]);
   const [quoteResponse, setQuoteResponse] = useState<any>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
@@ -71,6 +75,12 @@ const Home = () => {
       if (frameInput) {
         setFrames(frameInput.options);
       }
+      const postcardsInput = campaignConfig?.inputs?.find(
+        (x: any) => x.id === "postcards"
+      );
+      if (postcardsInput) {
+        setPostcards(postcardsInput.options);
+      }
     }
   }, [campaignConfig]);
 
@@ -83,6 +93,7 @@ const Home = () => {
           toUserDefinedUnit(imageInput?.id, "image"),
           toUserDefinedUnit(captionInput?.id, "caption"),
           toPreDefinedUnit(frameInput?.id, "frames"),
+          toPreDefinedUnit(postcardInput?.id, "postcards"),
           `${pfpInput?.unit}`,
         ],
         1
@@ -91,7 +102,7 @@ const Home = () => {
         setQuoteResponse(result);
       });
     }
-  }, [step, imageInput, frameInput, pfpInput, captionInput]);
+  }, [step, imageInput, frameInput, pfpInput, captionInput, postcardInput]);
 
   useEffect(() => {
     if (quoteResponse?.quote?.preview) {
@@ -135,6 +146,26 @@ const Home = () => {
     );
   }
 
+  if (step === Step.IMAGE) {
+    return (
+      <UploadImageHome
+        setUserDefinedInput={(inputRef) => {
+          if (campaignConfig) {
+            setUserDefinedInput(
+              "image",
+              "postcard",
+              {},
+              inputRef?.current?.files[0]
+            ).then((result) => {
+              setImageInput(result);
+              setStep(Step.POSTCARD);
+            });
+          }
+        }}
+      />
+    );
+  }
+
   if (step === Step.FRAME) {
     return (
       <FrameHome
@@ -150,25 +181,10 @@ const Home = () => {
     );
   }
 
-  if (step === Step.IMAGE) {
-    return (
-      <UploadImageHome
-        setUserDefinedInput={(inputRef) => {
-          if (campaignConfig) {
-            setUserDefinedInput(
-              "image",
-              "postcard",
-              {},
-              inputRef?.current?.files[0]
-            ).then((result) => {
-              setImageInput(result);
-              setStep(Step.PFP);
-            });
-          }
-        }}
-      />
-    );
-  }
+
+  // if (step === Step.POSTCARD) {
+  //     return <PostcardHome onSelect={(val) => setPostcardInput(val)} setStep={setStep} Step={Step} postcardInput={postcardInput} postcards={postcards} />;
+  // }
 
   if (step === Step.PFP) {
     return (
@@ -180,48 +196,48 @@ const Home = () => {
           setStep(Step.REVIEW);
         }}
         headerCTA={{
-          label: "BACK",
-          action: () => setStep(Step.FRAME)
+            label: "BACK",
+            action: () => setStep(Step.IMAGE)
         }}
         assets={myAssets}
       />
     );
   }
-  /** VEL-9: Remove this part */
-  // if (step === Step.CAPTION) {
-  //   return (
-  //     <Layout title="Enter a caption">
-  //       <div className="grid grid-cols-12 gap-5 h-auto">
-  //         <div className="col-span-8">
-  //           <input
-  //             ref={captionInputRef}
-  //             className="textarea textarea-bordered"
-  //             placeholder="Enter a Caption"
-  //             type="textarea"
-  //           />
-  //           <button
-  //             onClick={() => {
-  //               if (campaignConfig) {
-  //                 setUserDefinedInput(
-  //                   "caption",
-  //                   "postcard",
-  //                   captionInputRef?.current?.value
-  //                 ).then((result) => {
-  //                   setCaptionInput(result);
-  //                   setStep(Step.REVIEW);
-  //                 });
-  //               }
-  //             }}
-  //             className="btn btn-primary mt-2"
-  //           >
-  //             Review
-  //           </button>
-  //         </div>
-  //         <div className="col-span-4"></div>
-  //       </div>
-  //     </Layout>
-  //   );
-  // }
+  // SKIP THIS
+  if (step === Step.CAPTION) {
+    return (
+      <Layout title="Enter a caption">
+        <div className="grid grid-cols-12 gap-5 h-auto">
+          <div className="col-span-8">
+            <input
+              ref={captionInputRef}
+              className="textarea textarea-bordered"
+              placeholder="Enter a Caption"
+              type="textarea"
+            />
+            <button
+              onClick={() => {
+                if (campaignConfig) {
+                  setUserDefinedInput(
+                    "caption",
+                    "postcard",
+                    captionInputRef?.current?.value
+                  ).then((result) => {
+                    setCaptionInput(result);
+                    setStep(Step.REVIEW);
+                  });
+                }
+              }}
+              className="btn btn-primary mt-2"
+            >
+              Review
+            </button>
+          </div>
+          <div className="col-span-4"></div>
+        </div>
+      </Layout>
+    );
+  }
 
   if (step === Step.REVIEW) {
     return (
@@ -258,6 +274,7 @@ const Home = () => {
                     { unit: toUserDefinedUnit(imageInput?.id, "image") },
                     { unit: toUserDefinedUnit(captionInput?.id, "caption") },
                     { unit: toPreDefinedUnit(frameInput?.id, "frames") },
+                    { unit: toPreDefinedUnit(postcardInput?.id, "postcards") },
                     pfpInput,
                     toPrecompileInputUnit(
                       campaignConfig.id,
