@@ -11,8 +11,10 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import walletReducer from "./features/wallet/walletSlice";
+import stepsReducer from "./features/steps/stepsSlice";
 
 const rootReducer = combineReducers({
+  steps: stepsReducer,
   wallet: walletReducer,
 });
 

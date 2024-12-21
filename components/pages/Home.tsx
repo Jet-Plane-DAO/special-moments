@@ -14,7 +14,13 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import useAsset from "../hooks/useAsset";
 import { Asset } from "@meshsdk/core";
-import { FrameHome, PFPHome, UploadImageHome } from "../sections";
+import {
+  AddCaptionHome,
+  FrameHome,
+  PFPHome,
+  ReviewMintHome,
+  UploadImageHome,
+} from "../sections";
 import PostcardHome from "../sections/Home/PostcardHome";
 import { ButtonHeader } from "../shared";
 
@@ -34,7 +40,6 @@ const Home = () => {
   const { campaignConfig, check, quote, compile, status, setUserDefinedInput } =
     useCompileCampaign();
   const assets = useAssets();
-  const captionInputRef: any = useRef(null);
   const [imageInput, setImageInput] = useState<any>(null);
   const [frameInput, setFrameInput] = useState<any>(null);
   const [postcardInput, setPostcardInput] = useState<any>(null);
@@ -92,7 +97,7 @@ const Home = () => {
         "postcard",
         [
           toUserDefinedUnit(imageInput?.id, "image"),
-        //   toUserDefinedUnit(captionInput?.id, "caption"),
+          //   toUserDefinedUnit(captionInput?.id, "caption"),
           toPreDefinedUnit(frameInput?.id, "frames"),
           toPreDefinedUnit(postcardInput?.id, "postcards"),
           `${pfpInput?.unit}`,
@@ -180,7 +185,7 @@ const Home = () => {
         }}
         headerCTA={{
           label: "BACK",
-          action: () => setStep(Step.FRAME)
+          action: () => setStep(Step.FRAME),
         }}
       />
     );
@@ -223,101 +228,48 @@ const Home = () => {
   // TODO: VEL-9 SHOULD SKIP THIS
   if (step === Step.CAPTION) {
     return (
-      <Layout
-        title="Enter a caption"
-        headerComponent={
-          <ButtonHeader action={() => setStep(Step.PFP)} label={"Back"} />
-        }
-      >
-        <div className="grid grid-cols-12 gap-5 h-auto">
-          <div className="col-span-8">
-            <input
-              ref={captionInputRef}
-              className="textarea textarea-bordered"
-              placeholder="Enter a Caption"
-              type="textarea"
-            />
-            <button
-              onClick={() => {
-                if (campaignConfig) {
-                  setUserDefinedInput(
-                    "caption",
-                    "postcard",
-                    captionInputRef?.current?.value
-                  ).then((result) => {
-                    setCaptionInput(result);
-                    setStep(Step.REVIEW);
-                  });
-                }
-              }}
-              className="btn btn-primary mt-2"
-            >
-              Review
-            </button>
-          </div>
-          <div className="col-span-4"></div>
-        </div>
-      </Layout>
+      <AddCaptionHome
+        headerCTA={{
+          label: "BACK",
+          action: () => setStep(Step.PFP),
+        }}
+        onSelect={(captionInputRef) => {
+          if (campaignConfig) {
+            setUserDefinedInput(
+              "caption",
+              "postcard",
+              captionInputRef?.current?.value
+            ).then((result) => {
+              setCaptionInput(result);
+              setStep(Step.REVIEW);
+            });
+          }
+        }}
+      />
     );
   }
 
   if (step === Step.REVIEW) {
     return (
-      <Layout
-        title="Preview"
-        headerComponent={
-          <ButtonHeader action={() => setStep(Step.FRAME)} label={"Cancel"} />
-        }
-      >
-        <div className="grid grid-cols-12 gap-5 h-auto pb-12">
-          <div className="col-span-8">
-            {quoteResponse && (
-              <div className="grid grid-cols-12 gap-5">
-                <div className="col-span-8">
-                  {
-                    // TODO: Display preview image
-                  }
-                  <Image
-                    src={quoteResponse?.quote?.preview?.downloadURL}
-                    width={400}
-                    height={400}
-                    alt="Preview"
-                  />
-                </div>
-                <div className="col-span-4">
-                  <div className="card">
-                    <div className="card-body">
-                      <h2 className="card-title">Mint Quote</h2>
-                      <p>Price: {quoteResponse?.quote?.fee}A</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            <button
-              onClick={() => {
-                if (quoteResponse) {
-                  compile("postcard", [
-                    { unit: toUserDefinedUnit(imageInput?.id, "image") },
-                    // { unit: toUserDefinedUnit(captionInput?.id, "caption") },
-                    { unit: toPreDefinedUnit(frameInput?.id, "frames") },
-                    { unit: toPreDefinedUnit(postcardInput?.id, "postcards") },
-                    pfpInput,
-                    toPrecompileInputUnit(
-                      campaignConfig.id,
-                      previewImage ?? ""
-                    ),
-                  ]);
-                }
-              }}
-              className="btn btn-primary mt-2"
-            >
-              Mint
-            </button>
-          </div>
-          <div className="col-span-4"></div>
-        </div>
-      </Layout>
+      <ReviewMintHome
+        headerCTA={{
+          label: "Cancel",
+          action: () => setStep(Step.FRAME),
+        }}
+        response={quoteResponse}
+        onMint={() => {
+          if (quoteResponse) {
+            compile("postcard", [
+              { unit: toUserDefinedUnit(imageInput?.id, "image") },
+              // { unit: toUserDefinedUnit(captionInput?.id, "caption") },
+              { unit: toPreDefinedUnit(frameInput?.id, "frames") },
+              { unit: toPreDefinedUnit(postcardInput?.id, "postcards") },
+              pfpInput,
+              toPrecompileInputUnit(campaignConfig.id, previewImage ?? ""),
+            ]);
+          }
+        }}
+      />
     );
   }
 };
