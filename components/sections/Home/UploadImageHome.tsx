@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Layout from "@app/components/shared/Layout";
 import Image from "next/image";
 import { Upload } from "@app/components/icons";
-import { Button, ButtonHeader, ButtonHeaderProps } from "@app/components/shared";
+import { ButtonHeader, ButtonHeaderProps } from "@app/components/shared";
 
 interface UploadImageHomeProps {
   setUserDefinedInput: (ref: any) => void;
