@@ -178,6 +178,10 @@ const Home = () => {
             });
           }
         }}
+        headerCTA={{
+          label: "BACK",
+          action: () => setStep(Step.FRAME)
+        }}
       />
     );
   }
