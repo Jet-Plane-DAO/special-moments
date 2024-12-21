@@ -1,5 +1,6 @@
 import { ButtonHeader, ButtonHeaderProps } from "@app/components/shared";
 import Layout from "@app/components/shared/Layout";
+import { LoadingState } from "@app/components/shared/LoadingState";
 import Image from "next/image";
 
 interface ReviewMintHomeProps {
@@ -12,6 +13,21 @@ export default function ReviewMintHome({
   response,
   onMint,
 }: ReviewMintHomeProps) {
+  if (!response) {
+    <Layout
+      title="Preview"
+      headerComponent={
+        headerCTA && (
+          <ButtonHeader
+            action={headerCTA?.action}
+            label={headerCTA?.label ?? "Back"}
+          />
+        )
+      }
+    >
+      <LoadingState />
+    </Layout>;
+  }
   return (
     <Layout
       title="Preview"
@@ -24,36 +40,37 @@ export default function ReviewMintHome({
         )
       }
     >
-      <div className="grid grid-cols-12 gap-5 h-auto pb-12">
-        <div className="col-span-8">
-          {response && (
-            <div className="grid grid-cols-12 gap-5">
-              <div className="col-span-8">
-                {
-                  // TODO: Display preview image
-                }
+      <div className="flex justify-center items-center flex-col pb-[126px]">
+        {/* {response && ( */}
+        <>
+          <div className="flex mb-8">
+            <div className="flex justify-center flex-col items-center">
+              <div className="review-ratio">
                 <Image
                   src={response?.quote?.preview?.downloadURL}
+                  // src={"/assets/images/fpo/bg.jpg"}
                   width={400}
                   height={400}
                   alt="Preview"
                 />
-              </div>
-              <div className="col-span-4">
-                <div className="card">
-                  <div className="card-body">
-                    <h2 className="card-title">Mint Quote</h2>
-                    <p>Price: {response?.quote?.fee}A</p>
-                  </div>
+                <div className="flex justify-center mt-8">
+                  <button onClick={onMint} className="btn btn-primary">
+                    Mint
+                  </button>
                 </div>
               </div>
             </div>
-          )}
-          <button onClick={onMint} className="btn btn-primary mt-2">
-            Mint
-          </button>
-        </div>
-        <div className="col-span-4"></div>
+            <div className="">
+              <div className="card">
+                <div className="card-body">
+                  <h2 className="card-title">Mint Quote</h2>
+                  <p>Price: {response?.quote?.fee}A</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+        {/* )} */}
       </div>
     </Layout>
   );

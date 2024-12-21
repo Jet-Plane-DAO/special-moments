@@ -10,8 +10,7 @@ import {
   toUserDefinedUnit,
   useCompileCampaign,
 } from "@jetplane/velocity-tools";
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import { useEffect,  useState } from "react";
 import useAsset from "../hooks/useAsset";
 import { Asset } from "@meshsdk/core";
 import {
@@ -21,8 +20,7 @@ import {
   ReviewMintHome,
   UploadImageHome,
 } from "../sections";
-import PostcardHome from "../sections/Home/PostcardHome";
-import { ButtonHeader } from "../shared";
+import PostcardHome from "../sections/Home/PostcardHome"; 
 
 enum Step {
   IMAGE,
