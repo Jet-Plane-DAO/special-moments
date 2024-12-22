@@ -1,4 +1,4 @@
-import Layout from "../shared/Layout";
+
 import { LoadingState } from "../shared/LoadingState";
 import ButtonConnect from "../shared/ButtonConnect";
 
@@ -10,7 +10,7 @@ import {
   toUserDefinedUnit,
   useCompileCampaign,
 } from "@jetplane/velocity-tools";
-import { useEffect,  useState } from "react";
+import { useEffect, useState } from "react";
 import useAsset from "../hooks/useAsset";
 import { Asset } from "@meshsdk/core";
 import {
@@ -19,8 +19,9 @@ import {
   PFPHome,
   ReviewMintHome,
   UploadImageHome,
-} from "../sections";
-import PostcardHome from "../sections/Home/PostcardHome"; 
+} from "../sections"; 
+import PostcardHome from "../sections/Home/PostcardHome";
+import Layout from "../shared/Layout";
 
 enum Step {
   IMAGE,
@@ -48,7 +49,7 @@ const Home = () => {
   const [postcards, setPostcards] = useState<any[]>([]);
   const [quoteResponse, setQuoteResponse] = useState<any>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-
+  const [uploading, setUploading] = useState(false);
   const [myAssets, setMyAssets] = useState<any>(null);
   const { fetchAsset } = useAsset();
 
@@ -170,6 +171,7 @@ const Home = () => {
       <UploadImageHome
         setUserDefinedInput={(inputRef) => {
           if (campaignConfig) {
+            setUploading(true)
             setUserDefinedInput(
               "image",
               "postcard",
@@ -178,9 +180,12 @@ const Home = () => {
             ).then((result) => {
               setImageInput(result);
               setStep(Step.POSTCARD);
+            }).finally(() => {
+              setUploading(false)
             });
           }
         }}
+        loading={uploading}
         headerCTA={{
           label: "BACK",
           action: () => setStep(Step.FRAME),
