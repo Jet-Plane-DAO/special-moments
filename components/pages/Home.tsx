@@ -43,7 +43,7 @@ const Home = () => {
   const [postcardInput, setPostcardInput] = useState<any>(null);
   const [pfpInput, setPfpInput] = useState<any>(null);
   const [captionInput, setCaptionInput] = useState<any>(null);
-  const [step, setStep] = useState(Step.FRAME);
+  const [step, setStep] = useState(Step.POSTCARD);
   const [frames, setFrames] = useState<any[]>([]);
   const [postcards, setPostcards] = useState<any[]>([]);
   const [quoteResponse, setQuoteResponse] = useState<any>(null);

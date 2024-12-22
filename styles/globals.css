@@ -34,3 +34,22 @@ body {
 .frame-carousel .swiper-slide {
     @apply bg-transparent leading-[0];
 }
+
+.pfp-ratio {
+    @apply relative overflow-hidden;
+}
+
+.pfp-ratio::before{
+    @apply pt-[100%] w-full block content-[''];
+}
+
+.pfp-ratio > img{
+    @apply absolute top-0 left-0 w-full h-full object-cover;
+}
+
+.frame-ratio {
+    @apply  pt-[146%];
+}
+.postcard .frame-ratio {
+    @apply  pt-[47%];
+}

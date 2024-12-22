@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { Swiper, SwiperProps, SwiperSlide, useSwiper } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
@@ -14,7 +14,14 @@ export interface CarouselProps extends SwiperProps {
 export const CarouselItem = SwiperSlide
 
 export default function Carousel({ renderItem, slides, mainClassname, navAddOnClassName, ...props }: CarouselProps) {
-    const [activeIndex, setActiveIndex] = useState(0)
+    const [activeIndex, setActiveIndex] = useState(0);
+    const slidesPerView: number = useMemo(() => {
+        const {breakpoints = null} = props
+        if(breakpoints) {
+            return (breakpoints[768].slidesPerView as number) ?? 4
+        }
+        return 4
+    }, [props])
     return (
         <div className={['ml-0', mainClassname ?? ''].join(' ')}>
             <Swiper
@@ -36,7 +43,7 @@ export default function Carousel({ renderItem, slides, mainClassname, navAddOnCl
                         <SwiperSlide key={new Date().getMilliseconds + '' + i}>{renderItem(slide, i)}</SwiperSlide> 
                     )
                 })}
-                {slides.length > 4 && <Navigation className={navAddOnClassName} count={slides.length ?? 0} currentIdx={activeIndex} />}
+                {slides.length > slidesPerView  && <Navigation className={navAddOnClassName} count={slides.length ?? 0} currentIdx={activeIndex} />}
             </Swiper>
 
         </div>
