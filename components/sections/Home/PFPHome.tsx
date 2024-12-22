@@ -1,7 +1,13 @@
-import { Button, Carousel } from "@app/components/shared";
+import {
+  Button,
+  Carousel,
+  FPFCard,
+  SelectedMask,
+} from "@app/components/shared";
 import Layout from "@app/components/shared/Layout";
-import { WaletAsset } from "@app/components/wallet/Asset";
-import React from "react";
+import { Grid } from "swiper/modules";
+import "swiper/css/grid"; 
+import { useState } from "react";
 
 interface PFPHome {
   assets?: Array<any>;
@@ -16,38 +22,55 @@ interface PFPHome {
 
 export default function PFPHome({
   assets,
-  walletOnAction,
-  status,
-  walletAssetLabel,
   headerCTA,
+  walletOnAction,
 }: PFPHome) {
+  const [selected, setSelected] = useState<any>(null);
   return (
     <Layout
       title="Select a PFP"
       headerComponent={
-        <Button onClick={() => headerCTA?.action()}>{headerCTA?.label}</Button>
+        <Button
+          onClick={() =>
+            selected ? walletOnAction(selected) : headerCTA?.action()
+          }
+        >
+          {selected ? "NEXT" : headerCTA?.label}
+        </Button>
       }
     >
       <div className="mb-12">
         <Carousel
           navAddOnClassName="mt-5 lg:w-[98%] pl-[35px]"
+          loop={false}
+          modules={[Grid]}
           slides={assets ?? []}
+          breakpoints={{
+            [768]: {
+              slidesPerView: (assets?.length ?? 0) < 8 ? assets?.length : 8,
+            },
+          }}
           renderItem={(asset, index) => {
             const { onchain_metadata: item, unit } = asset ?? {};
             return (
-              <div className="flex justify-center">
-                <WaletAsset
-                  item={item}
-                  key={index}
-                  action={{
-                    action: (item: any) => {
-                      walletOnAction({ ...item, unit });
-                      return null;
-                    },
-                    status,
-                    label: () => walletAssetLabel ?? "Select",
+              <div className="flex justify-center" key={index}>
+                <button
+                  className="bg-transparent p-0 w-full block relative"
+                  onClick={() => {
+                    setSelected((_prev: any) => {
+                      if (!_prev) {
+                        return { ...item, unit };
+                      }
+                      if (_prev?.name === item.name) {
+                        return null;
+                      }
+                      return { ...item, unit };
+                    }); 
                   }}
-                />
+                >
+                  <FPFCard item={item} />
+                  {selected?.name === item.name && <SelectedMask />}
+                </button>
               </div>
             );
           }}

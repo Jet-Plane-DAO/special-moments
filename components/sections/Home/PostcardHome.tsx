@@ -5,7 +5,7 @@ import {
   ButtonHeaderProps,
 } from "@app/components/shared";
 import Layout from "@app/components/shared/Layout";
-import React from "react";
+import React, { useState } from "react";
 
 interface PostcardHome {
   postcardInput?: any;
@@ -20,19 +20,24 @@ export default function PostcardHome({
   postcards,
   headerCTA,
 }: PostcardHome) {
+  const [selected, setSelected] = useState<any>(null);
   return (
     <Layout
       title="Select a postcard"
       headerComponent={
         headerCTA ? (
-          <ButtonHeader action={headerCTA?.action} label={headerCTA.label} />
+          <ButtonHeader
+            action={() => (selected ? onSelect(selected) : headerCTA?.action())}
+            label={selected ? "NEXT" : headerCTA.label}
+          />
         ) : null
       }
     >
       <FrameSelector
-        onSelect={onSelect}
+        onSelect={(item) => setSelected(item)}
         frame={postcardInput}
         frames={postcards}
+        className={'postcard'}
       />
     </Layout>
   );
