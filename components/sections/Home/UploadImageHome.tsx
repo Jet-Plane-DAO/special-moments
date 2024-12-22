@@ -57,7 +57,7 @@ export default function UploadImageHome({
                 />
                 <div className="opacity-0 hover:opacity-100 transition-opacity duration-300 flex absolute z-50 w-full h-full justify-center items-center flex-col bg-mask-700 text-[90px]">
                   <Upload />
-                  <h3 className="text-[32px]">Upload Image</h3>
+                  <h3 className="text-[32px]">Change Image</h3>
                 </div>
               </div>
             )}
