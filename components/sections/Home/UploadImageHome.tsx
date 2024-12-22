@@ -3,15 +3,18 @@ import Layout from "@app/components/shared/Layout";
 import Image from "next/image";
 import { Upload } from "@app/components/icons";
 import { ButtonHeader, ButtonHeaderProps } from "@app/components/shared";
+import { LoadingState } from "@app/components/shared/LoadingState";
 
 interface UploadImageHomeProps {
   setUserDefinedInput: (ref: any) => void;
   headerCTA?: ButtonHeaderProps;
+  loading?: boolean
 }
 
 export default function UploadImageHome({
   setUserDefinedInput,
   headerCTA,
+  loading = false
 }: UploadImageHomeProps) {
   const inputRef: any = useRef(null);
   const [image, setImage] = useState<string | null>(null);
@@ -26,7 +29,7 @@ export default function UploadImageHome({
     <Layout
       title="Upload an image"
       headerComponent={
-        headerCTA ? <ButtonHeader action={headerCTA?.action} label={headerCTA.label}  /> : null
+        headerCTA ? !loading && <ButtonHeader action={headerCTA?.action} label={headerCTA.label}  /> : null
       }
     >
       <div className="mb-10 flex justify-center">
@@ -64,10 +67,10 @@ export default function UploadImageHome({
       <div className="flex justify-center mb-14">
         <button
           onClick={() => setUserDefinedInput(inputRef)}
-          className="btn btn-primary mt-2"
-          disabled={!image}
+          className="btn btn-primary mt-2 w-[220px]"
+          disabled={!image || loading}
         >
-          Upload
+          {loading ? <LoadingState /> : 'UPLOAD' }
         </button>
       </div>
     </Layout>
