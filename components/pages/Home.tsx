@@ -58,6 +58,10 @@ const Home = () => {
   },[frameInput])
 
   useEffect(() => {
+    console.log("CURRENT STEP IS", step)
+  },[step])
+
+  useEffect(() => {
     if (assets && !myAssets?.length) {
       Promise.all(
         assets.slice(0, 10).map((item: Asset) => {
