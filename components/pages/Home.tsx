@@ -54,6 +54,10 @@ const Home = () => {
   const { fetchAsset } = useAsset();
 
   useEffect(() => {
+    console.log("change affected: frameInput ===>", frameInput)
+  },[frameInput])
+
+  useEffect(() => {
     if (assets && !myAssets?.length) {
       Promise.all(
         assets.slice(0, 10).map((item: Asset) => {
@@ -155,8 +159,11 @@ const Home = () => {
     return (
       <FrameHome
         onSelect={(val) => {
+          console.log("begin click")
           setFrameInput(val);
+          console.log("after set input frame")
           setStep(Step.IMAGE);
+          console.log('to The next step')
         }}
         setStep={setStep}
         Step={Step}
