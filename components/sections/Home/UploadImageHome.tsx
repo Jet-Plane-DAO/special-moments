@@ -32,7 +32,7 @@ export default function UploadImageHome({
         headerCTA
           ? !loading && (
               <ButtonHeader
-                action={headerCTA?.action}
+                action={() => headerCTA?.action()}
                 label={headerCTA.label}
               />
             )

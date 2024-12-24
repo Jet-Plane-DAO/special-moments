@@ -1,6 +1,5 @@
 import { FrameSelector } from "@app/components/modules";
 import {
-  Button,
   ButtonHeader,
   ButtonHeaderProps,
 } from "@app/components/shared";

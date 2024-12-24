@@ -3,15 +3,13 @@ import { ButtonHeader } from "@app/components/shared";
 import Layout from "@app/components/shared/Layout";
 import React, { useState } from "react";
 
-interface FrameHome {
+interface SectionChooseFrameProps {
   frameInput?: any;
-  Step?: any;
-  setStep: (x: any) => void;
   frames?: Array<any>;
   onSelect: (x: any) => void;
 }
 
-export default function FrameHome({ frameInput, onSelect, frames }: FrameHome) {
+export default function SectionChooseFrame({ frameInput, onSelect, frames }: SectionChooseFrameProps) {
   const [selected, setSelected] = useState<any>(null); 
   return (
     <Layout
