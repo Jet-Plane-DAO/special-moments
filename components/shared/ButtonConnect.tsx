@@ -25,6 +25,7 @@ const ButtonConnect: React.FC = () => {
         if (connected && !connectedWallet) {
             disconnect();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [connected, connecting, connectedWallet]);
 
     useEffect(() => {

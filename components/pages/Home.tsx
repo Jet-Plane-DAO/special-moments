@@ -54,11 +54,12 @@ const Home = () => {
   const { fetchAsset } = useAsset();
 
   useEffect(() => {
-    console.log("change affected: frameInput ===>", frameInput)
-  },[frameInput])
-
-  useEffect(() => {
-    console.log("CURRENT STEP IS", step)
+    if (step === Step.IMAGE) {
+      console.log("typeof step:", typeof step, "& Curret STEP:", step) 
+      console.log("typeof Step.IMAGE:", typeof Step.IMAGE, "& Curret STEP:", Step.IMAGE)
+      console.log("is Step.IMAGE === step", Step.IMAGE === step)
+      console.log("Upload Image layout should shown")
+    }
   },[step])
 
   useEffect(() => {
@@ -115,6 +116,7 @@ const Home = () => {
         setQuoteResponse(result);
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, imageInput, frameInput, pfpInput, captionInput, postcardInput]);
 
   useEffect(() => {
@@ -162,12 +164,9 @@ const Home = () => {
   if (step === Step.FRAME) {
     return (
       <FrameHome
-        onSelect={(val) => {
-          console.log("begin click")
-          setFrameInput(val);
-          console.log("after set input frame")
-          setStep(Step.IMAGE);
-          console.log('to The next step')
+        onSelect={(val) => { 
+          setFrameInput(val); 
+          setStep(Step.IMAGE); 
         }}
         setStep={setStep}
         Step={Step}
@@ -178,6 +177,7 @@ const Home = () => {
   }
 
   if (step === Step.IMAGE) {
+    console.log("Reveal Upload Image Layout")
     return (
       <UploadImageHome
         setUserDefinedInput={(inputRef) => {

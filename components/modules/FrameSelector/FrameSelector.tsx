@@ -53,6 +53,13 @@ export default function FrameSelector({
             );
           }}
           slides={frames ?? []}
+          slidesPerView={5}
+          
+          breakpoints={{
+            [768]: {
+                slidesPerView: 10
+            }
+        }}
         />
       </div>
     </div>
