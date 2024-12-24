@@ -55,8 +55,8 @@ const Home = () => {
 
   useEffect(() => {
     if (step === Step.IMAGE) {
-      console.log("typeof step:", typeof step, "& Curret STEP:", step) 
-      console.log("typeof Step.IMAGE:", typeof Step.IMAGE, "& Curret STEP:", Step.IMAGE)
+      console.log("typeof step:", typeof step, "& Current STEP:", step) 
+      console.log("typeof Step.IMAGE:", typeof Step.IMAGE, "& Current STEP:", Step.IMAGE)
       console.log("is Step.IMAGE === step", Step.IMAGE === step)
       console.log("Upload Image layout should shown")
     }
