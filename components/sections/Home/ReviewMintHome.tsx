@@ -1,18 +1,29 @@
 import { ButtonHeader, ButtonHeaderProps } from "@app/components/shared";
 import Layout from "@app/components/shared/Layout";
 import { LoadingState } from "@app/components/shared/LoadingState";
+import { getPublicImageURL } from "@app/utils/assets";
 import Image from "next/image";
+import { useMemo } from "react";
 
 interface ReviewMintHomeProps {
   headerCTA?: ButtonHeaderProps;
   response?: any;
   onMint: (inputRef: any) => void;
+  tempImageFile?: any;
 }
 export default function ReviewMintHome({
   headerCTA,
   response,
+  tempImageFile,
   onMint,
 }: ReviewMintHomeProps) {
+  const imageRaw = useMemo(() => {
+    console.log(tempImageFile)
+    if (tempImageFile) {
+      return URL.createObjectURL(tempImageFile ?? "");
+    }
+    return getPublicImageURL("logo-black.jpg")
+  }, [tempImageFile]);
   if (!response) {
     <Layout
       title="Preview"
@@ -47,7 +58,7 @@ export default function ReviewMintHome({
             <div className="flex justify-center flex-col items-center">
               <div className="review-ratio">
                 <Image
-                  src={response?.quote?.preview?.downloadURL}
+                  src={imageRaw}
                   // src={"/assets/images/fpo/bg.jpg"}
                   width={400}
                   height={400}

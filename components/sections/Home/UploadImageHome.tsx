@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Layout from "@app/components/shared/Layout";
 import Image from "next/image";
 import { Upload } from "@app/components/icons";
@@ -8,28 +8,35 @@ import { LoadingState } from "@app/components/shared/LoadingState";
 interface UploadImageHomeProps {
   setUserDefinedInput: (ref: any) => void;
   headerCTA?: ButtonHeaderProps;
-  loading?: boolean
+  loading?: boolean;
 }
 
 export default function UploadImageHome({
   setUserDefinedInput,
   headerCTA,
-  loading = false
+  loading = false,
 }: UploadImageHomeProps) {
   const inputRef: any = useRef(null);
   const [image, setImage] = useState<string | null>(null);
 
-  const onImageChange = (event: any) => {
+  const onImageChange = useCallback((event: any) => {
     if (event.target.files && event.target.files[0]) {
       setImage(URL.createObjectURL(event.target.files[0]) ?? "");
     }
-  };
+  }, []);
 
   return (
     <Layout
       title="Upload an image"
       headerComponent={
-        headerCTA ? !loading && <ButtonHeader action={headerCTA?.action} label={headerCTA.label}  /> : null
+        headerCTA
+          ? !loading && (
+              <ButtonHeader
+                action={headerCTA?.action}
+                label={headerCTA.label}
+              />
+            )
+          : null
       }
     >
       <div className="mb-10 flex justify-center">
@@ -70,7 +77,7 @@ export default function UploadImageHome({
           className="btn btn-primary mt-2 w-[220px]"
           disabled={!image || loading}
         >
-          {loading ? <LoadingState /> : 'UPLOAD' }
+          {loading ? <LoadingState /> : "NEXT"}
         </button>
       </div>
     </Layout>
