@@ -55,20 +55,6 @@ const Home = () => {
   const { fetchAsset } = useAsset();
 
   useEffect(() => {
-    if (step === Step.IMAGE) {
-      console.log("typeof step:", typeof step, "& Current STEP:", step);
-      console.log(
-        "typeof Step.IMAGE:",
-        typeof Step.IMAGE,
-        "& Current STEP:",
-        Step.IMAGE
-      );
-      console.log("is Step.IMAGE === step", Step.IMAGE === step);
-      console.log("Upload Image layout should shown");
-    }
-  }, [step]);
-
-  useEffect(() => {
     if (assets) {
       Promise.all(
         assets.slice(0, 10).map((item: Asset) => {
@@ -105,26 +91,25 @@ const Home = () => {
     }
   }, [campaignConfig]);
 
-  // useEffect(() => {
-  //   if (step === Step.REVIEW) {
-  //     //   console.log(imageInput, frameInput, pfpInput, captionInput);
-  //     quote(
-  //       "postcard",
-  //       [
-  //         toUserDefinedUnit(imageInput?.id, "image"),
-  //         toUserDefinedUnit(captionInput?.id, "caption"),
-  //         toPreDefinedUnit(frameInput?.id, "frames"),
-  //         toPreDefinedUnit(postcardInput?.id, "postcards"),
-  //         `${pfpInput?.unit}`,
-  //       ],
-  //       1
-  //     ).then((result) => {
-  //       console.log(result);
-  //       setQuoteResponse(result);
-  //     });
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [step, imageInput, frameInput, pfpInput, captionInput, postcardInput]);
+  useEffect(() => {
+    // if (step === Step.REVIEW) {
+    //   //   console.log(imageInput, frameInput, pfpInput, captionInput);
+    //   quote(
+    //     "postcard",
+    //     [
+    //       // toUserDefinedUnit(imageInput?.id, "image"),
+    //       // toUserDefinedUnit(captionInput?.id, "caption"),
+    //       toPreDefinedUnit(frameInput?.id, "frames"),
+    //       toPreDefinedUnit(postcardInput?.id, "postcards"),
+    //       `${pfpInput?.unit}`,
+    //     ],
+    //     1
+    //   ).then((result) => {
+    //     setQuoteResponse(result);
+    //   });
+    // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, frameInput, pfpInput, postcardInput]);
 
   useEffect(() => {
     // if (quoteResponse?.quote?.preview) {
@@ -182,9 +167,7 @@ const Home = () => {
   }
 
   if (step === Step.IMAGE) {
-    console.log("Reveal Upload Image Layout");
     return (
-      // <div>Upload</div>
       <UploadImageHome
         setUserDefinedInput={(inputRef) => {
           if (campaignConfig) {
@@ -282,8 +265,11 @@ const Home = () => {
           label: "Cancel",
           action: () => setStep(Step.FRAME),
         }}
-        response={quoteResponse}
-        tempImageFile={tempImageFile}
+        quote={quoteResponse}
+        previewImageFile={tempImageFile}
+        previewCaption={captionText}
+        previewPostcard={postcardInput}
+        previewFrame={frameInput}
         onMint={async () => {
           try {
             setUploading(true);

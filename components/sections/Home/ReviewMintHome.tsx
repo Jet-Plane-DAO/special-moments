@@ -3,28 +3,39 @@ import Layout from "@app/components/shared/Layout";
 import { LoadingState } from "@app/components/shared/LoadingState";
 import { getPublicImageURL } from "@app/utils/assets";
 import Image from "next/image";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 interface ReviewMintHomeProps {
   headerCTA?: ButtonHeaderProps;
-  response?: any;
+  quote?: any;
   onMint: (inputRef: any) => void;
-  tempImageFile?: any;
+  previewImageFile?: any;
+  previewFrame?: any;
+  previewPostcard?: any;
+  previewCaption?: any;
 }
 export default function ReviewMintHome({
   headerCTA,
-  response,
-  tempImageFile,
+  quote,
+  previewImageFile,
   onMint,
+  previewCaption,
+  previewFrame,
+  previewPostcard,
 }: ReviewMintHomeProps) {
-  const imageRaw = useMemo(() => {
-    console.log(tempImageFile)
-    if (tempImageFile) {
-      return URL.createObjectURL(tempImageFile ?? "");
+  const previewImageURL = useMemo(() => {
+    if (previewImageFile) {
+      return URL.createObjectURL(previewImageFile ?? "");
     }
-    return getPublicImageURL("logo-black.jpg")
-  }, [tempImageFile]);
-  if (!response) {
+    return getPublicImageURL("logo-black.jpg");
+  }, [previewImageFile]);
+
+  useEffect(() => {
+    console.log("Previev Caption:", previewCaption);
+    console.log("Previev Frame:", previewFrame);
+    console.log("Previev postcard:", previewPostcard);
+  }, [previewCaption, previewFrame, previewPostcard]);
+  if (!quote) {
     <Layout
       title="Preview"
       headerComponent={
@@ -58,7 +69,7 @@ export default function ReviewMintHome({
             <div className="flex justify-center flex-col items-center">
               <div className="review-ratio">
                 <Image
-                  src={imageRaw}
+                  src={quote?.quote?.preview?.downloadURL}
                   // src={"/assets/images/fpo/bg.jpg"}
                   width={400}
                   height={400}
@@ -75,7 +86,7 @@ export default function ReviewMintHome({
               <div className="card">
                 <div className="card-body">
                   <h2 className="card-title">Mint Quote</h2>
-                  <p>Price: {response?.quote?.fee}A</p>
+                  <p>Price: {quote?.quote?.fee}A</p>
                 </div>
               </div>
             </div>
