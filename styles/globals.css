@@ -53,3 +53,8 @@ body {
 .postcard .frame-ratio {
     @apply  pt-[47%];
 }
+
+.image-uploader .reactEasyCrop_CropArea {
+    border: 2px solid rgb(255 255 255);
+    color: rgba(255, 255, 255, 0.4);
+}
