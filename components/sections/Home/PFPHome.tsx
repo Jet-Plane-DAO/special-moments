@@ -6,7 +6,7 @@ import {
 } from "@app/components/shared";
 import Layout from "@app/components/shared/Layout";
 import { Grid } from "swiper/modules";
-import "swiper/css/grid"; 
+import "swiper/css/grid";
 import { useState } from "react";
 
 interface PFPHome {
@@ -65,11 +65,11 @@ export default function PFPHome({
                         return null;
                       }
                       return { ...item, unit };
-                    }); 
+                    });
                   }}
                 >
                   <FPFCard item={item} />
-                  {selected?.name === item.name && <SelectedMask />}
+                  {selected?.name === item?.name && <SelectedMask />}
                 </button>
               </div>
             );
