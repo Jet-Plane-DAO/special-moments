@@ -1,4 +1,3 @@
-
 import { LoadingState } from "../shared/LoadingState";
 import ButtonConnect from "../shared/ButtonConnect";
 
@@ -15,11 +14,11 @@ import useAsset from "../hooks/useAsset";
 import { Asset } from "@meshsdk/core";
 import {
   AddCaptionHome,
-  FrameHome,
+  SectionChooseFrame,
   PFPHome,
   ReviewMintHome,
   UploadImageHome,
-} from "../sections"; 
+} from "../sections";
 import PostcardHome from "../sections/Home/PostcardHome";
 import Layout from "../shared/Layout";
 
@@ -39,22 +38,24 @@ const Home = () => {
   const { campaignConfig, check, quote, compile, status, setUserDefinedInput } =
     useCompileCampaign();
   const assets = useAssets();
-  const [imageInput, setImageInput] = useState<any>(null);
+  // const [imageInput, setImageInput] = useState<any>(null);
   const [frameInput, setFrameInput] = useState<any>(null);
   const [postcardInput, setPostcardInput] = useState<any>(null);
   const [pfpInput, setPfpInput] = useState<any>(null);
-  const [captionInput, setCaptionInput] = useState<any>(null);
+  // const [captionInput, setCaptionInput] = useState<any>(null);
   const [step, setStep] = useState(Step.FRAME);
   const [frames, setFrames] = useState<any[]>([]);
   const [postcards, setPostcards] = useState<any[]>([]);
   const [quoteResponse, setQuoteResponse] = useState<any>(null);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  // const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [myAssets, setMyAssets] = useState<any>(null);
+  const [tempImageFile, setTempImageFile] = useState<any>(null);
+  const [captionText, setCaptionText] = useState<any>("");
   const { fetchAsset } = useAsset();
 
   useEffect(() => {
-    if (assets && !myAssets?.length) {
+    if (assets) {
       Promise.all(
         assets.slice(0, 10).map((item: Asset) => {
           return fetchAsset(item);
@@ -63,7 +64,8 @@ const Home = () => {
         setMyAssets(data);
       });
     }
-  }, [assets, fetchAsset, myAssets?.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [assets]);
 
   useEffect(() => {
     if (wallet && connected && status === CompileStatusEnum.INIT) {
@@ -90,29 +92,29 @@ const Home = () => {
   }, [campaignConfig]);
 
   useEffect(() => {
-    if (step === Step.REVIEW) {
-      //   console.log(imageInput, frameInput, pfpInput, captionInput);
-      quote(
-        "postcard",
-        [
-          toUserDefinedUnit(imageInput?.id, "image"),
-          //   toUserDefinedUnit(captionInput?.id, "caption"),
-          toPreDefinedUnit(frameInput?.id, "frames"),
-          toPreDefinedUnit(postcardInput?.id, "postcards"),
-          `${pfpInput?.unit}`,
-        ],
-        1
-      ).then((result) => {
-        console.log(result);
-        setQuoteResponse(result);
-      });
-    }
-  }, [step, imageInput, frameInput, pfpInput, captionInput, postcardInput]);
+    // if (step === Step.REVIEW) {
+    //   //   console.log(imageInput, frameInput, pfpInput, captionInput);
+    //   quote(
+    //     "postcard",
+    //     [
+    //       // toUserDefinedUnit(imageInput?.id, "image"),
+    //       // toUserDefinedUnit(captionInput?.id, "caption"),
+    //       toPreDefinedUnit(frameInput?.id, "frames"),
+    //       toPreDefinedUnit(postcardInput?.id, "postcards"),
+    //       `${pfpInput?.unit}`,
+    //     ],
+    //     1
+    //   ).then((result) => {
+    //     setQuoteResponse(result);
+    //   });
+    // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, frameInput, pfpInput, postcardInput]);
 
   useEffect(() => {
-    if (quoteResponse?.quote?.preview) {
-      setPreviewImage(quoteResponse?.quote?.preview?.path?.split("/")?.pop());
-    }
+    // if (quoteResponse?.quote?.preview) {
+    //   setPreviewImage(quoteResponse?.quote?.preview?.path?.split("/")?.pop());
+    // }
   }, [quoteResponse]);
 
   if (!connected && connecting) {
@@ -153,13 +155,11 @@ const Home = () => {
 
   if (step === Step.FRAME) {
     return (
-      <FrameHome
+      <SectionChooseFrame
         onSelect={(val) => {
           setFrameInput(val);
           setStep(Step.IMAGE);
         }}
-        setStep={setStep}
-        Step={Step}
         frameInput={frameInput}
         frames={frames}
       />
@@ -171,18 +171,21 @@ const Home = () => {
       <UploadImageHome
         setUserDefinedInput={(inputRef) => {
           if (campaignConfig) {
-            setUploading(true)
-            setUserDefinedInput(
-              "image",
-              "postcard",
-              {},
-              inputRef?.current?.files[0]
-            ).then((result) => {
-              setImageInput(result);
-              setStep(Step.POSTCARD);
-            }).finally(() => {
-              setUploading(false)
-            });
+            setTempImageFile(inputRef?.current?.files[0]);
+            setStep(Step.POSTCARD);
+            // setUserDefinedInput(
+            //   "image",
+            //   "postcard",
+            //   {},
+            //   inputRef?.current?.files[0]
+            // )
+            //   .then((result) => {
+            //     setImageInput(result);
+            //     setStep(Step.POSTCARD);
+            //   })
+            //   .finally(() => {
+            //     setUploading(false);
+            //   });
           }
         }}
         loading={uploading}
@@ -218,7 +221,7 @@ const Home = () => {
         walletAssetLabel="Select"
         walletOnAction={(item) => {
           setPfpInput(item);
-          setStep(Step.REVIEW);
+          setStep(Step.CAPTION);
         }}
         headerCTA={{
           label: "BACK",
@@ -228,6 +231,7 @@ const Home = () => {
       />
     );
   }
+
   // TODO: VEL-9 SHOULD SKIP THIS
   if (step === Step.CAPTION) {
     return (
@@ -237,16 +241,18 @@ const Home = () => {
           action: () => setStep(Step.PFP),
         }}
         onSelect={(captionInputRef) => {
-          if (campaignConfig) {
-            setUserDefinedInput(
-              "caption",
-              "postcard",
-              captionInputRef?.current?.value
-            ).then((result) => {
-              setCaptionInput(result);
-              setStep(Step.REVIEW);
-            });
-          }
+          setCaptionText(captionInputRef?.current?.value);
+          setStep(Step.REVIEW);
+          // if (campaignConfig) {
+          // setUserDefinedInput(
+          //   "caption",
+          //   "postcard",
+          //   captionInputRef?.current?.value
+          // ).then((result) => {
+          //   setCaptionInput(result);
+          //   setStep(Step.REVIEW);
+          // });
+          // }
         }}
       />
     );
@@ -259,18 +265,62 @@ const Home = () => {
           label: "Cancel",
           action: () => setStep(Step.FRAME),
         }}
-        response={quoteResponse}
-        onMint={() => {
-          if (quoteResponse) {
+        quote={quoteResponse}
+        previewImageFile={tempImageFile}
+        previewCaption={captionText}
+        previewPostcard={postcardInput}
+        previewFrame={frameInput}
+        onMint={async () => {
+          try {
+            setUploading(true);
+            const res = await setUserDefinedInput(
+              "image",
+              "postcard",
+              {},
+              tempImageFile
+            );
+
+            const caption = await setUserDefinedInput(
+              "caption",
+              "postcard",
+              captionText
+            );
+
             compile("postcard", [
-              { unit: toUserDefinedUnit(imageInput?.id, "image") },
-              // { unit: toUserDefinedUnit(captionInput?.id, "caption") },
+              { unit: toUserDefinedUnit(res?.id, "image") },
+              { unit: toUserDefinedUnit(caption?.id, "caption") },
               { unit: toPreDefinedUnit(frameInput?.id, "frames") },
               { unit: toPreDefinedUnit(postcardInput?.id, "postcards") },
               pfpInput,
-              toPrecompileInputUnit(campaignConfig.id, previewImage ?? ""),
+              toPrecompileInputUnit(campaignConfig.id, tempImageFile?.name),
             ]);
+          } catch (error) {
+            console.error(error);
+            setUploading(false);
+          } finally {
+            setUploading(false);
           }
+          // if (quoteResponse) {
+          //   setUserDefinedInput("image", "postcard", {}, tempImageFile)
+          //     .then((result) => {
+          //       compile("postcard", [
+          //         { unit: toUserDefinedUnit(result?.id, "image") },
+          //         { unit: toUserDefinedUnit(captionInput?.id, "caption") },
+          //         { unit: toPreDefinedUnit(frameInput?.id, "frames") },
+          //         {
+          //           unit: toPreDefinedUnit(postcardInput?.id, "postcards"),
+          //         },
+          //         pfpInput,
+          //         toPrecompileInputUnit(
+          //           campaignConfig.id,
+          //           previewImage ?? ""
+          //         ),
+          //       ]);
+          //     })
+          //     .finally(() => {
+          //       setUploading(false);
+          //     });
+          // }
         }}
       />
     );

@@ -58,14 +58,20 @@ const Nav = () => {
     <nav>
       <div className="navbar ">
         <div className="flex-1">
-          <Link className="btn btn-ghost normal-case text-xl" href={"/"}>
+          <Link
+            className="normal-case text-xl w-[98px] h-[98px] rounded-xl overflow-hidden"
+            href={"/"}
+          >
             <Image
-              src={getPublicImageURL("sm-logo-dummy.png")}
-              width={30}
-              height={30}
+              src={getPublicImageURL("logo-black.jpg")}
+              width={98}
+              height={98}
               alt={config.projectName}
+              className="w-full h-full object-cover"
             />
-            {config.projectName}
+            <h1 className="absolute h-0 w-0 indent-[99999px] overflow-hidden">
+              {config.projectName}
+            </h1>
           </Link>
         </div>
         <div className="flex-none gap-2">
