@@ -38,16 +38,16 @@ const Home = () => {
   const { campaignConfig, check, quote, compile, status, setUserDefinedInput } =
     useCompileCampaign();
   const assets = useAssets();
-  // const [imageInput, setImageInput] = useState<any>(null);
+  const [imageInput, setImageInput] = useState<any>(null);
   const [frameInput, setFrameInput] = useState<any>(null);
   const [postcardInput, setPostcardInput] = useState<any>(null);
   const [pfpInput, setPfpInput] = useState<any>(null);
-  // const [captionInput, setCaptionInput] = useState<any>(null);
+  const [captionInput, setCaptionInput] = useState<any>(null);
   const [step, setStep] = useState(Step.FRAME);
   const [frames, setFrames] = useState<any[]>([]);
   const [postcards, setPostcards] = useState<any[]>([]);
   const [quoteResponse, setQuoteResponse] = useState<any>(null);
-  // const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [myAssets, setMyAssets] = useState<any>(null);
   const [tempImageFile, setTempImageFile] = useState<any>(null);
@@ -57,7 +57,7 @@ const Home = () => {
   useEffect(() => {
     if (assets) {
       Promise.all(
-        assets.slice(0, 10).map((item: Asset) => {
+        assets.slice(0, 20).map((item: Asset) => {
           return fetchAsset(item);
         })
       ).then((data) => {
@@ -92,29 +92,28 @@ const Home = () => {
   }, [campaignConfig]);
 
   useEffect(() => {
-    // if (step === Step.REVIEW) {
-    //   //   console.log(imageInput, frameInput, pfpInput, captionInput);
-    //   quote(
-    //     "postcard",
-    //     [
-    //       // toUserDefinedUnit(imageInput?.id, "image"),
-    //       // toUserDefinedUnit(captionInput?.id, "caption"),
-    //       toPreDefinedUnit(frameInput?.id, "frames"),
-    //       toPreDefinedUnit(postcardInput?.id, "postcards"),
-    //       `${pfpInput?.unit}`,
-    //     ],
-    //     1
-    //   ).then((result) => {
-    //     setQuoteResponse(result);
-    //   });
-    // }
+    if (step === Step.REVIEW) {
+      quote(
+        "postcard",
+        [
+          toUserDefinedUnit(imageInput?.id, "image"),
+          toUserDefinedUnit(captionInput?.id, "caption"),
+          toPreDefinedUnit(frameInput?.id, "frames"),
+          toPreDefinedUnit(postcardInput?.id, "postcards"),
+          `${pfpInput?.unit}`,
+        ],
+        1
+      ).then((result) => {
+        setQuoteResponse(result);
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, frameInput, pfpInput, postcardInput]);
 
   useEffect(() => {
-    // if (quoteResponse?.quote?.preview) {
-    //   setPreviewImage(quoteResponse?.quote?.preview?.path?.split("/")?.pop());
-    // }
+    if (quoteResponse?.quote?.preview) {
+      setPreviewImage(quoteResponse?.quote?.preview?.path?.split("/")?.pop());
+    }
   }, [quoteResponse]);
 
   if (!connected && connecting) {
@@ -169,23 +168,24 @@ const Home = () => {
   if (step === Step.IMAGE) {
     return (
       <UploadImageHome
-        setUserDefinedInput={(inputRef) => {
+        setUserDefinedInput={(file) => {
           if (campaignConfig) {
-            setTempImageFile(inputRef?.current?.files[0]);
+            const tempImage = file
+            setTempImageFile(tempImage);
             setStep(Step.POSTCARD);
-            // setUserDefinedInput(
-            //   "image",
-            //   "postcard",
-            //   {},
-            //   inputRef?.current?.files[0]
-            // )
-            //   .then((result) => {
-            //     setImageInput(result);
-            //     setStep(Step.POSTCARD);
-            //   })
-            //   .finally(() => {
-            //     setUploading(false);
-            //   });
+            setUserDefinedInput(
+              "image",
+              "postcard",
+              {},
+              tempImage
+            )
+              .then((result) => {
+                setImageInput(result);
+                setStep(Step.POSTCARD);
+              })
+              .finally(() => {
+                setUploading(false);
+              });
           }
         }}
         loading={uploading}
@@ -242,17 +242,17 @@ const Home = () => {
         }}
         onSelect={(captionInputRef) => {
           setCaptionText(captionInputRef?.current?.value);
-          setStep(Step.REVIEW);
-          // if (campaignConfig) {
-          // setUserDefinedInput(
-          //   "caption",
-          //   "postcard",
-          //   captionInputRef?.current?.value
-          // ).then((result) => {
-          //   setCaptionInput(result);
-          //   setStep(Step.REVIEW);
-          // });
-          // }
+          // setStep(Step.REVIEW);
+          if (campaignConfig) {
+            setUserDefinedInput(
+              "caption",
+              "postcard",
+              captionInputRef?.current?.value
+            ).then((result) => {
+              setCaptionInput(result);
+              setStep(Step.REVIEW);
+            });
+          }
         }}
       />
     );
@@ -271,56 +271,71 @@ const Home = () => {
         previewPostcard={postcardInput}
         previewFrame={frameInput}
         onMint={async () => {
-          try {
-            setUploading(true);
-            const res = await setUserDefinedInput(
-              "image",
-              "postcard",
-              {},
-              tempImageFile
-            );
+          // try {
+          //   setUploading(true);
+          //   const res = await setUserDefinedInput(
+          //     "image",
+          //     "postcard",
+          //     {},
+          //     tempImageFile
+          //   );
 
-            const caption = await setUserDefinedInput(
-              "caption",
-              "postcard",
-              captionText
-            );
+          //   const caption = await setUserDefinedInput(
+          //     "caption",
+          //     "postcard",
+          //     captionText
+          //   );
 
-            compile("postcard", [
-              { unit: toUserDefinedUnit(res?.id, "image") },
-              { unit: toUserDefinedUnit(caption?.id, "caption") },
-              { unit: toPreDefinedUnit(frameInput?.id, "frames") },
-              { unit: toPreDefinedUnit(postcardInput?.id, "postcards") },
-              pfpInput,
-              toPrecompileInputUnit(campaignConfig.id, tempImageFile?.name),
-            ]);
-          } catch (error) {
-            console.error(error);
-            setUploading(false);
-          } finally {
-            setUploading(false);
-          }
-          // if (quoteResponse) {
-          //   setUserDefinedInput("image", "postcard", {}, tempImageFile)
-          //     .then((result) => {
-          //       compile("postcard", [
-          //         { unit: toUserDefinedUnit(result?.id, "image") },
-          //         { unit: toUserDefinedUnit(captionInput?.id, "caption") },
-          //         { unit: toPreDefinedUnit(frameInput?.id, "frames") },
-          //         {
-          //           unit: toPreDefinedUnit(postcardInput?.id, "postcards"),
-          //         },
-          //         pfpInput,
-          //         toPrecompileInputUnit(
-          //           campaignConfig.id,
-          //           previewImage ?? ""
-          //         ),
-          //       ]);
-          //     })
-          //     .finally(() => {
-          //       setUploading(false);
-          //     });
+          //   compile("postcard", [
+          //     { unit: toUserDefinedUnit(res?.id, "image") },
+          //     { unit: toUserDefinedUnit(caption?.id, "caption") },
+          //     { unit: toPreDefinedUnit(frameInput?.id, "frames") },
+          //     { unit: toPreDefinedUnit(postcardInput?.id, "postcards") },
+          //     pfpInput,
+          //     toPrecompileInputUnit(campaignConfig.id, tempImageFile?.name),
+          //   ]);
+          // } catch (error) {
+          //   console.error(error);
+          //   setUploading(false);
+          // } finally {
+          //   setUploading(false);
           // }
+          if (quoteResponse) {
+            console.log([
+              { unit: toUserDefinedUnit(imageInput.id, "image") },
+              { unit: toUserDefinedUnit(captionInput?.id, "caption") },
+              { unit: toPreDefinedUnit(frameInput?.id, "frames") },
+              {
+                unit: toPreDefinedUnit(postcardInput?.id, "postcards"),
+              },
+              { unit: pfpInput?.unit },
+              toPrecompileInputUnit(
+                campaignConfig.id,
+                quoteResponse?.quote?.preview?.downloadURL ?? ""
+              ),
+            ])
+            // setUserDefinedInput("image", "postcard", {}, tempImageFile)
+            //   .then((result) => {
+            compile("postcard", [
+              { unit: toUserDefinedUnit(imageInput.id, "image") },
+              { unit: toUserDefinedUnit(captionInput?.id, "caption") },
+              { unit: toPreDefinedUnit(frameInput?.id, "frames") },
+              {
+                unit: toPreDefinedUnit(postcardInput?.id, "postcards"),
+              },
+              pfpInput,
+              {
+                unit: toPrecompileInputUnit(
+                  campaignConfig.id,
+                  quoteResponse?.quote?.preview?.downloadURL ?? ""
+                )
+              },
+            ]);
+            // })
+            // .finally(() => {
+            //   setUploading(false);
+            // });
+          }
         }}
       />
     );
@@ -328,24 +343,24 @@ const Home = () => {
 };
 export default Home;
 
-export async function getStaticProps() {
-  /* Fetch data here */
-  const requestHeaders: HeadersInit = new Headers();
+// export async function getStaticProps() {
+//   /* Fetch data here */
+//   const requestHeaders: HeadersInit = new Headers();
 
-  requestHeaders.set(
-    "jetplane-api-key",
-    process.env.NEXT_PUBLIC_VELOCITY_API_KEY ?? ""
-  );
-  const res = await fetch(`${process.env.NEXT_PUBLIC_VELOCITY_API}/summary`, {
-    method: "GET",
-    headers: requestHeaders,
-  });
-  const summary = await res.json();
+//   requestHeaders.set(
+//     "jetplane-api-key",
+//     process.env.NEXT_PUBLIC_VELOCITY_API_KEY ?? ""
+//   );
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_VELOCITY_API}/summary`, {
+//     method: "GET",
+//     headers: requestHeaders,
+//   });
+//   const summary = await res.json();
 
-  return {
-    props: {
-      summary,
-    },
-    revalidate: 5 * 60,
-  };
-}
+//   return {
+//     props: {
+//       summary,
+//     },
+//     revalidate: 5 * 60,
+//   };
+// }

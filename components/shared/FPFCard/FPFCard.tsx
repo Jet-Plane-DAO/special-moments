@@ -6,15 +6,15 @@ interface FPFCardProps {
 }
 
 export default function FPFCard({ item }: FPFCardProps) {
-    const itemImage = useMemo(() => {
-            if(!item?.image){
-                return ""
-            }
-            if(item?.image?.includes("ipfs://")){
-                return item?.image.replace("ipfs://", "")
-            }
-            return item?.image
-        }, [item])
+  const itemImage = useMemo(() => {
+    if (!item?.image) {
+      return ""
+    }
+    if (item?.image?.includes("ipfs://") && item?.image?.replace) {
+      return item?.image?.replace("ipfs://", "")
+    }
+    return item?.image
+  }, [item])
   return (
     <>
       <div className="pfp-ratio hover:opacity-80 transition-opacity duration-500">
