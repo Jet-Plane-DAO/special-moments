@@ -16,14 +16,12 @@ const Modifiers = () => {
   const { campaignConfig, check, status } = useCraftingCampaign();
 
   useEffect(() => {
-    console.log(wallet, connected, status);
     if (wallet && connected && status === CraftingStatusEnum.INIT) {
       check();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wallet, connected]);
 
-  console.log(campaignConfig);
   return (
     <Layout title={config.modifiersTitle}>
       {/* <Activity /> */}

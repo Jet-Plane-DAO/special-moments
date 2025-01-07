@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Layout from "@app/components/shared/Layout";
 import Image from "next/image";
 import { Upload } from "@app/components/icons";
@@ -29,11 +29,12 @@ export default function UploadImageHome({
   const [image, setImage] = useState<string | null>(null);
   const [imageSrc, setImageSrc] = useState(null);
 
-  const onImageChange = useCallback((event: any) => {
-    if (event.target.files && event.target.files[0]) {
-      setImage(URL.createObjectURL(event.target.files[0]) ?? "");
-    }
-  }, []);
+  // const onImageChange = useCallback((event: any) => {
+  //   if (event.target.files && event.target.files[0]) {
+  //     setImage(URL.createObjectURL(event.target.files[0]) ?? "");
+  //   }
+  // }, []);
+
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedImage, setCroppedImage] = useState(null);
@@ -42,9 +43,30 @@ export default function UploadImageHome({
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
+  useEffect(() => {
+    if (!croppedAreaPixels || !imageSrc) {
+      return;
+    }
+    const generateCroppedImage = async () => {
+      try {
+        const _croppedImage = await getCroppedImg(
+          imageSrc,
+          croppedAreaPixels,
+          0
+        );
+        setCroppedImage(_croppedImage as any);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    generateCroppedImage();
+  }
+    , [croppedAreaPixels, imageSrc]);
+
   const onFileChange = async (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
+      setImage(file);
       let imageDataUrl = await readFile(file);
 
       // try {
@@ -61,25 +83,29 @@ export default function UploadImageHome({
       setImageSrc(imageDataUrl as any);
     }
   };
-  const showCroppedImage = async () => {
-    try {
-      const _croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels, 0);
-      setCroppedImage(_croppedImage as any);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+
+
+
+  // const showCroppedImage = async () => {
+  //   try {
+  //     const _croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels, 0);
+  //     setCroppedImage(_croppedImage as any);
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+
   return (
     <Layout
       title="Upload an image"
       headerComponent={
         headerCTA
           ? !loading && (
-              <ButtonHeader
-                action={() => headerCTA?.action()}
-                label={headerCTA.label}
-              />
-            )
+            <ButtonHeader
+              action={() => headerCTA?.action()}
+              label={headerCTA.label}
+            />
+          )
           : null
       }
     >
@@ -137,7 +163,7 @@ export default function UploadImageHome({
       </div>
       <div className="flex justify-center mb-14">
         <button
-          onClick={() => setUserDefinedInput(inputRef)}
+          onClick={() => setUserDefinedInput(image)}
           className="btn btn-primary mt-2 w-[220px]"
           disabled={!imageSrc || loading}
         >
@@ -151,7 +177,7 @@ export default function UploadImageHome({
           >
             {loading ? <LoadingState /> : "REMOVE IMAGE"}
           </button>
-        )} 
+        )}
       </div>
     </Layout>
   );
