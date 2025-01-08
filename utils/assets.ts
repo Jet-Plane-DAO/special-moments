@@ -110,3 +110,7 @@ export async function getCroppedImg(
     }, "image/png");
   });
 }
+
+export async function blobToFile(blobUrl: string, fileName: string): Promise<any> {
+  return await fetch(blobUrl).then(r => r.blob()).then(blobFile => new File([blobFile], fileName, { type: blobFile.type }));
+}
