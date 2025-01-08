@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Layout from "@app/components/shared/Layout";
-import Image from "next/image";
 import { Upload } from "@app/components/icons";
 import { ButtonHeader, ButtonHeaderProps } from "@app/components/shared";
 import { LoadingState } from "@app/components/shared/LoadingState";
@@ -14,6 +13,7 @@ function readFile(file: any) {
     reader.readAsDataURL(file);
   });
 }
+
 interface UploadImageHomeProps {
   setUserDefinedInput: (ref: any) => void;
   headerCTA?: ButtonHeaderProps;
@@ -26,7 +26,7 @@ export default function UploadImageHome({
   loading = false,
 }: UploadImageHomeProps) {
   const inputRef: any = useRef(null);
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<any | null>(null);
   const [imageSrc, setImageSrc] = useState(null);
 
   // const onImageChange = useCallback((event: any) => {
@@ -60,40 +60,23 @@ export default function UploadImageHome({
       }
     };
     generateCroppedImage();
-  }
-    , [croppedAreaPixels, imageSrc]);
+  }, [croppedAreaPixels, imageSrc]);
 
   const onFileChange = async (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       setImage(file);
-      let imageDataUrl = await readFile(file);
-
-      // try {
-      //   // apply rotation if needed
-      //   const orientation = await getOrientation(file)
-      //   const rotation = ORIENTATION_TO_ANGLE[orientation]
-      //   if (rotation) {
-      //     imageDataUrl = await getRotatedImage(imageDataUrl, rotation)
-      //   }
-      // } catch (e) {
-      //   console.warn('failed to detect the orientation')
-      // }
+      let imageDataUrl = await readFile(file); 
 
       setImageSrc(imageDataUrl as any);
     }
   };
 
 
-
-  // const showCroppedImage = async () => {
-  //   try {
-  //     const _croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels, 0);
-  //     setCroppedImage(_croppedImage as any);
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
+  const onNext = async () => {
+    const imageFile = new File([croppedImage as any], image?.name); 
+    setUserDefinedInput(imageFile)
+  }
 
   return (
     <Layout
@@ -124,26 +107,10 @@ export default function UploadImageHome({
                 <Upload />
                 <h3 className="text-[32px]">Upload Image</h3>
               </div>
-              {/* {image && (
-              <div className="relative h-full w-full">
-                <Image
-                  src={image}
-                  height="100"
-                  width="100"
-                  className="absolute w-full h-full object-cover z-40"
-                  alt="selected image"
-                />
-                <div className="opacity-0 hover:opacity-100 transition-opacity duration-300 flex absolute z-50 w-full h-full justify-center items-center flex-col bg-mask-700 text-[90px]">
-                  <Upload />
-                  <h3 className="text-[32px]">Change Image</h3>
-                </div>
-              </div>
-            )} */}
             </label>
           </div>
         )}
         {imageSrc && (
-          // <div className="lex h-auto border rounded-sm relative before:pt-[115.38%] before:content-[''] before:w-full before:block lg:w-[518px] w-[90%] overflow-hidden image-uploader">
           <div className="flex h-[578px] relative before:block w-full overflow-hidden image-uploader">
             <div className="clip-rect-area">
               <Cropper
@@ -162,8 +129,7 @@ export default function UploadImageHome({
         )}
       </div>
       <div className="flex justify-center mb-14">
-        <button
-          onClick={() => setUserDefinedInput(image)}
+        <button onClick={() => onNext()}
           className="btn btn-primary mt-2 w-[220px]"
           disabled={!imageSrc || loading}
         >
