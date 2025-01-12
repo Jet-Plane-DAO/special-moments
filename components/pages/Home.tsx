@@ -57,6 +57,11 @@ const Home = () => {
 
     useEffect(() => {
         if (wallet && connected && status === CompileStatusEnum.INIT) {
+            wallet.getNetworkId().then((networkId: number) => {
+                if (networkId !== parseInt(`${process.env.NEXT_PUBLIC_NETWORK}`)) {
+                    alert("Please switch to a wallet on the correct network");
+                }
+            });
             check();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
