@@ -77,7 +77,8 @@ const Home = () => {
 
     useEffect(() => {
         if (step === Step.REVIEW) {
-            quote("postcard", [toUserDefinedUnit(imageInput?.id, "image"), toUserDefinedUnit(captionInput?.id, "caption"), toPreDefinedUnit(frameInput?.id, "frames"), toPreDefinedUnit(postcardInput?.id, "postcards"), `${pfpInput?.unit}`], 1).then(
+            quote("postcard", [toUserDefinedUnit(imageInput?.id, "image"),
+            toUserDefinedUnit(captionInput?.id, "caption"), toPreDefinedUnit(frameInput?.id, "frames"), toPreDefinedUnit(postcardInput?.id, "postcards"), `${pfpInput?.unit}`], 1).then(
                 (result) => {
                     setQuoteResponse(result);
                 }
@@ -145,10 +146,11 @@ const Home = () => {
         return (
             <UploadImageHome
                 setUserDefinedInput={(file) => {
+                    setUploading(true)
                     if (campaignConfig) {
                         const tempImage = file;
                         setTempImageFile(tempImage);
-                        setStep(Step.POSTCARD);
+                        setUploading(true);
                         setUserDefinedInput("image", "postcard", {}, tempImage)
                             .then((result) => {
                                 setImageInput(result);
