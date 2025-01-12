@@ -150,7 +150,7 @@ const Home = () => {
                     if (campaignConfig) {
                         const tempImage = file;
                         setTempImageFile(tempImage);
-                        setStep(Step.POSTCARD);
+                        setUploading(true);
                         setUserDefinedInput("image", "postcard", {}, tempImage)
                             .then((result) => {
                                 setImageInput(result);
