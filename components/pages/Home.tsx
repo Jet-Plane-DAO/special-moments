@@ -1,14 +1,12 @@
-import { LoadingState } from "../shared/LoadingState";
-import ButtonConnect from "../shared/ButtonConnect";
-
-import { useAssets, useWallet } from "@meshsdk/react";
-import { CompileStatusEnum, toPrecompileInputUnit, toPreDefinedUnit, toUserDefinedUnit, useCompileCampaign } from "@jetplane/velocity-tools";
-import { useEffect, useState } from "react";
+ import {   toPrecompileInputUnit, toPreDefinedUnit, toUserDefinedUnit, useCompileCampaign } from "@jetplane/velocity-tools";
+import { useEffect, useMemo, useState } from "react";
 import useAsset from "../hooks/useAsset";
-import { Asset } from "@meshsdk/core";
 import { AddCaptionHome, SectionChooseFrame, PFPHome, ReviewMintHome, UploadImageHome } from "../sections";
 import PostcardHome from "../sections/Home/PostcardHome";
-import Layout from "../shared/Layout";
+import useFrame from "../hooks/useFrame";
+import usePostcard from "../hooks/usePostcard";
+import useConnectedWallet from "../hooks/useConnectedWallet";
+import LoadingFullLayout from "../shared/Loading/LoadingFullLayout"; 
 
 enum Step {
     IMAGE,
@@ -22,63 +20,24 @@ enum Step {
 }
 
 const Home = () => {
-    const { wallet, connected, connecting } = useWallet();
+    const { quote, compile, status, setUserDefinedInput } = useCompileCampaign();
 
-    const { campaignConfig, check, quote, compile, status, setUserDefinedInput } = useCompileCampaign();
-    const assets = useAssets();
     const [imageInput, setImageInput] = useState<any>(null);
     const [frameInput, setFrameInput] = useState<any>(null);
     const [postcardInput, setPostcardInput] = useState<any>(null);
     const [pfpInput, setPfpInput] = useState<any>(null);
     const [captionInput, setCaptionInput] = useState<any>(null);
-    const [step, setStep] = useState(Step.FRAME);
-    const [frames, setFrames] = useState<any[]>([]);
-    const [postcards, setPostcards] = useState<any[]>([]);
+    const [step, setStep] = useState(Step.PFP);
     const [quoteResponse, setQuoteResponse] = useState<any>(null);
-    const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const [_, setPreviewImage] = useState<string | null>(null);
     const [uploading, setUploading] = useState(false);
-    const [myAssets, setMyAssets] = useState<any>(null);
     const [tempImageFile, setTempImageFile] = useState<any>(null);
     const [captionText, setCaptionText] = useState<any>("");
-    const { fetchAsset } = useAsset();
+    const { myAssets } = useAsset(); 
 
-    useEffect(() => {
-        if (assets) {
-            Promise.all(
-                assets.slice(0, 20).map((item: Asset) => {
-                    return fetchAsset(item);
-                })
-            ).then((data) => {
-                setMyAssets(data);
-            });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [assets]);
-
-    useEffect(() => {
-        if (wallet && connected && status === CompileStatusEnum.INIT) {
-            wallet.getNetworkId().then((networkId: number) => {
-                if (networkId !== parseInt(`${process.env.NEXT_PUBLIC_NETWORK}`)) {
-                    alert("Please switch to a wallet on the correct network");
-                }
-            });
-            check();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [wallet, connected]);
-
-    useEffect(() => {
-        if (campaignConfig) {
-            const frameInput = campaignConfig?.inputs?.find((x: any) => x.id === "frames");
-            if (frameInput) {
-                setFrames(frameInput.options);
-            }
-            const postcardsInput = campaignConfig?.inputs?.find((x: any) => x.id === "postcards");
-            if (postcardsInput) {
-                setPostcards(postcardsInput.options);
-            }
-        }
-    }, [campaignConfig]);
+    const { campaignConfig, connected, connecting } = useConnectedWallet()
+    const { frames } = useFrame(campaignConfig)
+    const { postcards } = usePostcard(campaignConfig)
 
     useEffect(() => {
         if (step === Step.REVIEW) {
@@ -98,44 +57,57 @@ const Home = () => {
         }
     }, [quoteResponse]);
 
-    if (!connected && connecting) {
-        return (
-            <div className="w-full h-screen bg-gray-10  bg-teds bg-bottom ">
-                <Layout title="Connecting Wallet">
-                    <div className="flex justify-center items-center">
-                        <LoadingState />
-                    </div>
-                </Layout>
-            </div>
-        );
-    }
+    const isOnProcessing = useMemo(() => {
 
-    if (!connected && !connecting) {
-        return (
-            <div className="w-full h-screen bg-gray-10  bg-teds bg-bottom ">
-                <Layout title="">
-                    <div className="flex justify-center items-center">
-                        <ButtonConnect />
-                    </div>
-                </Layout>
-            </div>
-        );
-    }
+        if (connecting) {
+            return true
+        }
 
-    if (!campaignConfig) {
+        if (!connected) {
+            return true
+        }
+
+        if (!campaignConfig) {
+            return true;
+        }
+
+        return false;
+    },[campaignConfig, connected, connecting])
+
+    // if (!connected && connecting) {
+    //     return (
+    //         <LoadingFullLayout />
+    //     );
+    // }
+
+    // if (!connected && !connecting) {
+    //     return (
+    //         <LoadingFullLayout />
+    //     );
+    // }
+
+    // if (!campaignConfig) {
+    //     return (
+    //         <LoadingFullLayout />
+    //     );
+    // }
+    
+    const setAssets = useMemo(()=> {
+        if(myAssets){
+            return myAssets
+            // return Array(50).fill(myAssets).flat()
+        }
+        return myAssets
+    }, [myAssets])
+
+    if (isOnProcessing) {
         return (
-            <div className="w-full h-screen bg-gray-10  bg-teds bg-bottom ">
-                <Layout title="Special Moments">
-                    <div className="flex justify-center items-center">
-                        <LoadingState />
-                    </div>
-                </Layout>
-            </div>
+            <LoadingFullLayout />
         );
     }
 
     if (step === Step.FRAME) {
-        return (
+        return ( 
             <SectionChooseFrame
                 onSelect={(val) => {
                     setFrameInput(val);
@@ -205,7 +177,7 @@ const Home = () => {
                     label: "BACK",
                     action: () => setStep(Step.IMAGE),
                 }}
-                assets={myAssets}
+                assets={setAssets}
             />
         );
     }
@@ -312,25 +284,3 @@ const Home = () => {
     }
 };
 export default Home;
-
-// export async function getStaticProps() {
-//   /* Fetch data here */
-//   const requestHeaders: HeadersInit = new Headers();
-
-//   requestHeaders.set(
-//     "jetplane-api-key",
-//     process.env.NEXT_PUBLIC_VELOCITY_API_KEY ?? ""
-//   );
-//   const res = await fetch(`${process.env.NEXT_PUBLIC_VELOCITY_API}/summary`, {
-//     method: "GET",
-//     headers: requestHeaders,
-//   });
-//   const summary = await res.json();
-
-//   return {
-//     props: {
-//       summary,
-//     },
-//     revalidate: 5 * 60,
-//   };
-// }

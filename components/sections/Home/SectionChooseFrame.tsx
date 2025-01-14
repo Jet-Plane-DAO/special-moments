@@ -1,7 +1,7 @@
 import { FrameSelector } from "@app/components/modules";
 import { ButtonHeader } from "@app/components/shared";
 import Layout from "@app/components/shared/Layout";
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface SectionChooseFrameProps {
   frameInput?: any;
@@ -11,6 +11,7 @@ interface SectionChooseFrameProps {
 
 export default function SectionChooseFrame({ frameInput, onSelect, frames }: SectionChooseFrameProps) {
   const [selected, setSelected] = useState<any>(null); 
+   
   return (
     <Layout
       title="Select a frame"

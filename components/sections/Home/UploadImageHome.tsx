@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Layout from "@app/components/shared/Layout";
 import { Upload } from "@app/components/icons";
 import { ButtonHeader, ButtonHeaderProps } from "@app/components/shared";
-import { LoadingState } from "@app/components/shared/LoadingState";
+import { LoadingState } from "@app/components/shared/Loading/LoadingState";
 import Cropper from "react-easy-crop";
 import { blobToFile, getCroppedImg } from "@app/utils/assets";
 

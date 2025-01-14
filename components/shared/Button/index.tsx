@@ -6,6 +6,8 @@ const variantClasses: { [key: string]: string } = {
     primary: 'btn-primary',
     secondary: 'btn-secondary',
     tertiary: 'btn-tertiary',
+    transparent: 'btn-transparent',
+    'transparent-xs': 'btn-transparent btn-xs-pad',
 }
 
 const Button: React.FC<ButtonProps> = ({ children, className, outlined, href, variant = 'primary', ...props }) => {

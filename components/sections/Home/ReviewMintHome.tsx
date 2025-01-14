@@ -1,6 +1,6 @@
 import { ButtonHeader, ButtonHeaderProps } from "@app/components/shared";
 import Layout from "@app/components/shared/Layout";
-import { LoadingState } from "@app/components/shared/LoadingState";
+import { LoadingState } from "@app/components/shared/Loading/LoadingState";
 import { getPublicImageURL } from "@app/utils/assets";
 import Image from "next/image";
 import { useEffect, useMemo } from "react";
@@ -23,15 +23,13 @@ export default function ReviewMintHome({
   previewFrame,
   previewPostcard,
 }: ReviewMintHomeProps) {
-  const previewImageURL = useMemo(() => {
-    if (previewImageFile) {
-      return URL.createObjectURL(previewImageFile ?? "");
-    }
-    return getPublicImageURL("logo-black.jpg");
-  }, [previewImageFile]);
-
-  useEffect(() => {
-  }, [previewCaption, previewFrame, previewPostcard]);
+  // const previewImageURL = useMemo(() => {
+  //   if (previewImageFile) {
+  //     return URL.createObjectURL(previewImageFile ?? "");
+  //   }
+  //   return getPublicImageURL("logo-black.jpg");
+  // }, [previewImageFile]);
+  
   if (!quote) {
     <Layout
       title="Preview"

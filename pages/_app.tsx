@@ -9,7 +9,7 @@ import { persistStore } from "redux-persist";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { useEffect } from "react";
 import { PersistGate } from "redux-persist/integration/react";
-import { LoadingState } from "../components/shared/LoadingState";
+import { LoadingState } from "../components/shared/Loading/LoadingState";
 // Tell Font Awesome to skip adding the CSS automatically
 // since it's already imported above
 config.autoAddCss = false;
