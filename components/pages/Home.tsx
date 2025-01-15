@@ -1,4 +1,4 @@
- import {   toPrecompileInputUnit, toPreDefinedUnit, toUserDefinedUnit, useCompileCampaign } from "@jetplane/velocity-tools";
+import { toPrecompileInputUnit, toPreDefinedUnit, toUserDefinedUnit, useCompileCampaign } from "@jetplane/velocity-tools";
 import { useEffect, useMemo, useState } from "react";
 import useAsset from "../hooks/useAsset";
 import { AddCaptionHome, SectionChooseFrame, PFPHome, ReviewMintHome, UploadImageHome } from "../sections";
@@ -6,7 +6,9 @@ import PostcardHome from "../sections/Home/PostcardHome";
 import useFrame from "../hooks/useFrame";
 import usePostcard from "../hooks/usePostcard";
 import useConnectedWallet from "../hooks/useConnectedWallet";
-import LoadingFullLayout from "../shared/Loading/LoadingFullLayout"; 
+import LoadingFullLayout from "../shared/Loading/LoadingFullLayout";
+import Layout from "../shared/Layout";
+import ButtonConnect from "../shared/ButtonConnect";
 
 enum Step {
     IMAGE,
@@ -33,7 +35,7 @@ const Home = () => {
     const [uploading, setUploading] = useState(false);
     const [tempImageFile, setTempImageFile] = useState<any>(null);
     const [captionText, setCaptionText] = useState<any>("");
-    const { myAssets } = useAsset(); 
+    const { myAssets } = useAsset();
 
     const { campaignConfig, connected, connecting } = useConnectedWallet()
     const { frames } = useFrame(campaignConfig)
@@ -72,33 +74,27 @@ const Home = () => {
         }
 
         return false;
-    },[campaignConfig, connected, connecting])
+    }, [campaignConfig, connected, connecting])
 
-    // if (!connected && connecting) {
-    //     return (
-    //         <LoadingFullLayout />
-    //     );
-    // }
-
-    // if (!connected && !connecting) {
-    //     return (
-    //         <LoadingFullLayout />
-    //     );
-    // }
-
-    // if (!campaignConfig) {
-    //     return (
-    //         <LoadingFullLayout />
-    //     );
-    // }
-    
-    const setAssets = useMemo(()=> {
-        if(myAssets){
+    const setAssets = useMemo(() => {
+        if (myAssets) {
             return myAssets
-            // return Array(50).fill(myAssets).flat()
         }
         return myAssets
     }, [myAssets])
+
+
+    if (!connected && !connecting) {
+        return (
+            <div className="w-full h-screen bg-gray-10  bg-teds bg-bottom ">
+                <Layout title="">
+                    <div className="flex justify-center items-center">
+                        <ButtonConnect />
+                    </div>
+                </Layout>
+            </div>
+        );
+    }
 
     if (isOnProcessing) {
         return (
@@ -107,7 +103,7 @@ const Home = () => {
     }
 
     if (step === Step.FRAME) {
-        return ( 
+        return (
             <SectionChooseFrame
                 onSelect={(val) => {
                     setFrameInput(val);
@@ -217,48 +213,19 @@ const Home = () => {
                 previewPostcard={postcardInput}
                 previewFrame={frameInput}
                 onMint={async () => {
-                    // try {
-                    //   setUploading(true);
-                    //   const res = await setUserDefinedInput(
-                    //     "image",
-                    //     "postcard",
-                    //     {},
-                    //     tempImageFile
-                    //   );
-
-                    //   const caption = await setUserDefinedInput(
-                    //     "caption",
-                    //     "postcard",
-                    //     captionText
-                    //   );
-
-                    //   compile("postcard", [
-                    //     { unit: toUserDefinedUnit(res?.id, "image") },
-                    //     { unit: toUserDefinedUnit(caption?.id, "caption") },
-                    //     { unit: toPreDefinedUnit(frameInput?.id, "frames") },
-                    //     { unit: toPreDefinedUnit(postcardInput?.id, "postcards") },
-                    //     pfpInput,
-                    //     toPrecompileInputUnit(campaignConfig.id, tempImageFile?.name),
-                    //   ]);
-                    // } catch (error) {
-                    //   console.error(error);
-                    //   setUploading(false);
-                    // } finally {
-                    //   setUploading(false);
-                    // }
                     if (quoteResponse) {
-                        console.log([
-                            { unit: toUserDefinedUnit(imageInput.id, "image") },
-                            { unit: toUserDefinedUnit(captionInput?.id, "caption") },
-                            { unit: toPreDefinedUnit(frameInput?.id, "frames") },
-                            {
-                                unit: toPreDefinedUnit(postcardInput?.id, "postcards"),
-                            },
-                            pfpInput,
-                            {
-                                unit: toPrecompileInputUnit(campaignConfig.id, quoteResponse?.quote?.preview?.path.split("/").pop() ?? ""),
-                            },
-                        ]);
+                        // console.log([
+                        //     { unit: toUserDefinedUnit(imageInput.id, "image") },
+                        //     { unit: toUserDefinedUnit(captionInput?.id, "caption") },
+                        //     { unit: toPreDefinedUnit(frameInput?.id, "frames") },
+                        //     {
+                        //         unit: toPreDefinedUnit(postcardInput?.id, "postcards"),
+                        //     },
+                        //     pfpInput,
+                        //     {
+                        //         unit: toPrecompileInputUnit(campaignConfig.id, quoteResponse?.quote?.preview?.path.split("/").pop() ?? ""),
+                        //     },
+                        // ]);
                         // setUserDefinedInput("image", "postcard", {}, tempImageFile)
                         //   .then((result) => {
                         compile("postcard", [
