@@ -63,7 +63,7 @@ const Nav = () => {
             href={"/"}
           >
             <Image
-              src={getPublicImageURL("logo-black.jpg")}
+              src={getPublicImageURL("sm-logo.png")}
               width={98}
               height={98}
               alt={config.projectName}

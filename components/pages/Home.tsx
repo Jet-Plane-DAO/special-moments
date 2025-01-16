@@ -29,7 +29,7 @@ const Home = () => {
     const [postcardInput, setPostcardInput] = useState<any>(null);
     const [pfpInput, setPfpInput] = useState<any>(null);
     const [captionInput, setCaptionInput] = useState<any>(null);
-    const [step, setStep] = useState(Step.PFP);
+    const [step, setStep] = useState(Step.FRAME);
     const [quoteResponse, setQuoteResponse] = useState<any>(null);
     const [_, setPreviewImage] = useState<string | null>(null);
     const [uploading, setUploading] = useState(false);

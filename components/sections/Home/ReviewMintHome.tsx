@@ -23,12 +23,6 @@ export default function ReviewMintHome({
   previewFrame,
   previewPostcard,
 }: ReviewMintHomeProps) {
-  // const previewImageURL = useMemo(() => {
-  //   if (previewImageFile) {
-  //     return URL.createObjectURL(previewImageFile ?? "");
-  //   }
-  //   return getPublicImageURL("logo-black.jpg");
-  // }, [previewImageFile]);
   
   if (!quote) {
     <Layout
@@ -65,8 +59,8 @@ export default function ReviewMintHome({
                 <div className="review-ratio">
                   <Image
                     src={quote?.quote?.preview?.downloadURL}
-                    width={400}
-                    height={400}
+                    width={600}
+                    height={600}
                     alt="Preview"
                   />
                   <div className="flex justify-center mt-8">

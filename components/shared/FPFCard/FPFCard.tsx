@@ -21,8 +21,8 @@ export default function FPFCard({ item }: FPFCardProps) {
         <Image
           src={`https://ipfs.blockfrost.dev/ipfs/${itemImage}`}
           alt={item?.name ?? ""}
-          width={120}
-          height={120}
+          width={400}
+          height={400}
         />
       </div>
     </>
