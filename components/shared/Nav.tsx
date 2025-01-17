@@ -74,7 +74,7 @@ const Nav = () => {
             </h1>
           </Link>
         </div>
-        
+      
         <div className="flex-none gap-2">
           <div className="dropdown dropdown-end">
             <label
