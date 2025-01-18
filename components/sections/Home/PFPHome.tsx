@@ -20,7 +20,6 @@ interface PFPHome {
 }
 
 const pageSize: number = 24;
-
 function paginate(array: any, page_number: number) {
   // human-readable page numbers usually start with 1, so we reduce 1 in the first argument
   return array.slice((page_number - 1) * pageSize, page_number * pageSize);
@@ -31,6 +30,7 @@ export default function PFPHome({
   headerCTA,
   walletOnAction,
 }: PFPHome) {
+  console.log(assets?.length)
   const [selected, setSelected] = useState<any>(null);
   const [page, setPage] = useState(1)
   const pageTotal = useMemo(() => {

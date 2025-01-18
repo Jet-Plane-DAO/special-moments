@@ -211,7 +211,10 @@ const Home = () => {
             <ReviewMintHome
                 headerCTA={{
                     label: "Cancel",
-                    action: () => setStep(Step.FRAME),
+                    action: () => {
+                        setQuoteResponse(null);                        
+                        return setStep(Step.FRAME);
+                    },
                 }}
                 quote={quoteResponse}
                 previewImageFile={tempImageFile}

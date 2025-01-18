@@ -18,7 +18,7 @@ const useAsset = () => {
     useEffect(() => {
         if (assets) {
             Promise.all(
-                assets.slice(0, 20).map((item: Asset) => {
+                assets.map((item: Asset) => {
                     return fetchAsset(item);
                 })
             ).then((data) => {
