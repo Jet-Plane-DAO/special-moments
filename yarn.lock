@@ -696,7 +696,7 @@
   dependencies:
     "@harmoniclabs/uint8array-utils" "^1.0.0"
 
-"@harmoniclabs/bytestring@^1.0.0":
+"@harmoniclabs/bytestring@^1.0.0", "@harmoniclabs/bytestring@1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@harmoniclabs/bytestring/-/bytestring-1.0.0.tgz"
   integrity sha512-d5m10O0okKc6QNX0pSRriFTkk/kNMnMBGbo5X3kEZwKaXTI4tDVoTZBL7bwbYHwOEdSxWJjVtlO9xtB7ZrYZNg==
@@ -712,7 +712,7 @@
     "@harmoniclabs/obj-utils" "^1.0.0"
     "@harmoniclabs/uint8array-utils" "^1.0.0"
 
-"@harmoniclabs/crypto@^0.2.4":
+"@harmoniclabs/crypto@^0.2.4", "@harmoniclabs/crypto@0.2.4":
   version "0.2.4"
   resolved "https://registry.npmjs.org/@harmoniclabs/crypto/-/crypto-0.2.4.tgz"
   integrity sha512-aVehpKFvgbzFn2qCoRHnrUHAB6XxU1YN61+2Tygo7T6oY3zubI0CI8Ydn2ELp2gidUaFzkICOKFZnAfq6Hxa3w==
@@ -725,7 +725,7 @@
   resolved "https://registry.npmjs.org/@harmoniclabs/obj-utils/-/obj-utils-1.0.0.tgz"
   integrity sha512-EO1bQBZAORrutcP+leP5YNDwNd/9TOE23VEvs3ktniXg6w0knUrLjUIl2Pkcbs/D1VQxqmsNpXho+vaMj00qxA==
 
-"@harmoniclabs/pair@^1.0.0":
+"@harmoniclabs/pair@^1.0.0", "@harmoniclabs/pair@1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@harmoniclabs/pair/-/pair-1.0.0.tgz"
   integrity sha512-D9OBowsUsy1LctHxWzd9AngTzoo5x3rBiJ0gu579t41Q23pb+VNx1euEfluUEiaYbgljcl1lb/4D1fFTZd1tRQ==
@@ -780,17 +780,10 @@
   resolved "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@img/sharp-darwin-arm64@0.33.5":
+"@img/sharp-win32-x64@0.33.5":
   version "0.33.5"
-  resolved "https://registry.npmjs.org/@img/sharp-darwin-arm64/-/sharp-darwin-arm64-0.33.5.tgz"
-  integrity sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==
-  optionalDependencies:
-    "@img/sharp-libvips-darwin-arm64" "1.0.4"
-
-"@img/sharp-libvips-darwin-arm64@1.0.4":
-  version "1.0.4"
-  resolved "https://registry.npmjs.org/@img/sharp-libvips-darwin-arm64/-/sharp-libvips-darwin-arm64-1.0.4.tgz"
-  integrity sha512-XblONe153h0O2zuFfTAbQYAX2JhYmDHeWikp1LM9Hul9gVPjFY427k6dFEcOL72O01QxQsWi761svJ/ev9xEDg==
+  resolved "https://registry.npmjs.org/@img/sharp-win32-x64/-/sharp-win32-x64-0.33.5.tgz"
+  integrity sha512-MpY/o8/8kj+EcnxwvrP4aTJSWw/aZ7JIGR4aBeZkZw5B7/Jn+tY9/VNwtcoGmdT7GfggGIU4kygOMSbYnOrAbg==
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
@@ -805,10 +798,10 @@
 "@isaacs/string-locale-compare@^1.1.0":
   version "1.1.0"
 
-"@jetplane/velocity-tools@^1.0.191":
-  version "1.0.191"
-  resolved "https://registry.npmjs.org/@jetplane/velocity-tools/-/velocity-tools-1.0.191.tgz"
-  integrity sha512-2We2ro2+R0m0M6QMj4VAVNjLm1jKK/M62Y7Wz3L69+k5nPw4BRk2+mg3ZWRazPqP0ilm6KSScqmC6rau1zkehw==
+"@jetplane/velocity-tools@^1.0.194":
+  version "1.0.194"
+  resolved "https://registry.npmjs.org/@jetplane/velocity-tools/-/velocity-tools-1.0.194.tgz"
+  integrity sha512-SyDOdw/lTGAYssTi4fgnHKhFj5ytjibSh28G3MAoGEgk4vUa7CIPYzs6Y6NAwEaYmgip9Eb0KqgJpc3eXVMZLQ==
   dependencies:
     hexyjs "^2.1.4"
     prop-types "^15.7.2"
@@ -851,105 +844,109 @@
   resolved "https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.5.tgz"
   integrity sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==
 
-"@meshsdk/common@1.7.31":
-  version "1.7.31"
-  resolved "https://registry.npmjs.org/@meshsdk/common/-/common-1.7.31.tgz"
-  integrity sha512-Vj4iUtyGKd7bEKgyMRkmyBZ5cT2m02waxmtxumUPOhmYWRCEqcVOMGOHzvJlHZ2jjo5DkZ18y6UxMVItmD5TRw==
+"@meshsdk/common@1.8.12":
+  version "1.8.12"
+  resolved "https://registry.npmjs.org/@meshsdk/common/-/common-1.8.12.tgz"
+  integrity sha512-0CaAsNd2gaAl6zWkpJZo0z9Oblab8ymeMXDdLDv2tFXOUQu/FE9LE1ExCqRdWRcTlbTe9nbW47Ol9shLglahTQ==
   dependencies:
     bech32 "^2.0.0"
     bip39 "3.1.0"
     blake2b "^2.1.4"
 
-"@meshsdk/core-csl@1.7.31":
-  version "1.7.31"
-  resolved "https://registry.npmjs.org/@meshsdk/core-csl/-/core-csl-1.7.31.tgz"
-  integrity sha512-sSmnIqrQapsfz08idoMXAcRabuFLgzIIiyMSOk3bVffDuvCoJSFPkfxA+d3E3lSgLoSH5BZboflUFdCgl/+0gQ==
+"@meshsdk/core-csl@1.8.12":
+  version "1.8.12"
+  resolved "https://registry.npmjs.org/@meshsdk/core-csl/-/core-csl-1.8.12.tgz"
+  integrity sha512-ipF6Wq/pvICtKw3Wxo0MIj/0HYKs74PrXR5vSwFWk2KL1UUljrmdkTonkMNwgHiuoBmo7p8qMoxSn4UW5fGBtg==
   dependencies:
-    "@meshsdk/common" "1.7.31"
-    "@sidan-lab/sidan-csl-rs-browser" "0.9.9"
-    "@sidan-lab/sidan-csl-rs-nodejs" "0.9.9"
+    "@meshsdk/common" "1.8.12"
+    "@sidan-lab/sidan-csl-rs-browser" "0.9.16"
+    "@sidan-lab/sidan-csl-rs-nodejs" "0.9.16"
     "@types/base32-encoding" "^1.0.2"
     base32-encoding "^1.0.0"
     bech32 "^2.0.0"
     json-bigint "^1.0.0"
 
-"@meshsdk/core-cst@1.7.31":
-  version "1.7.31"
-  resolved "https://registry.npmjs.org/@meshsdk/core-cst/-/core-cst-1.7.31.tgz"
-  integrity sha512-/qtSK1lI431wYobdu6C20GKMIZpsB+DtOa5DwkgXBrHVAnUe5rW9PY6CK39NCjZokOcPV5MMKSk/mE5u3/fm2g==
+"@meshsdk/core-cst@1.8.12":
+  version "1.8.12"
+  resolved "https://registry.npmjs.org/@meshsdk/core-cst/-/core-cst-1.8.12.tgz"
+  integrity sha512-Lgmtx+AQIqJfUjVLoUDG4wItRgyFZxsuSzwT8cH6XKdajBdDVZxArmu37O2JOq1vyL5xn87XLColyqEjGZ93Pw==
   dependencies:
     "@cardano-sdk/core" "0.35.4"
     "@cardano-sdk/crypto" "0.1.28"
     "@cardano-sdk/util" "0.15.4"
+    "@harmoniclabs/bytestring" "1.0.0"
     "@harmoniclabs/cbor" "1.3.0"
+    "@harmoniclabs/crypto" "0.2.4"
+    "@harmoniclabs/pair" "1.0.0"
     "@harmoniclabs/plutus-data" "1.2.4"
     "@harmoniclabs/uplc" "1.2.4"
-    "@meshsdk/common" "1.7.31"
+    "@meshsdk/common" "1.8.12"
     "@stricahq/bip32ed25519" "^1.1.0"
     "@stricahq/cbors" "^1.0.3"
     pbkdf2 "^3.1.2"
 
-"@meshsdk/core@1.7.31":
-  version "1.7.31"
-  resolved "https://registry.npmjs.org/@meshsdk/core/-/core-1.7.31.tgz"
-  integrity sha512-LSJTtcpHiHBrgulGb7pQ5TlTO40AtWeLjlEVViaeNukE00GILgEC2OEp7l7NlVJN1kuXGGnpA1oH92yINBa/aA==
+"@meshsdk/core@^1.8.12", "@meshsdk/core@1.8.x":
+  version "1.8.12"
+  resolved "https://registry.npmjs.org/@meshsdk/core/-/core-1.8.12.tgz"
+  integrity sha512-p4pXvsne6XSGmQ0Fd8D36bPVDYvXwVLLskxymcjUpyagVdH3oGf50MnGZwO8vW1TR7tRiox3xZrmJeSb6Ru3ng==
   dependencies:
-    "@meshsdk/common" "1.7.31"
-    "@meshsdk/core-csl" "1.7.31"
-    "@meshsdk/core-cst" "1.7.31"
-    "@meshsdk/provider" "1.7.31"
-    "@meshsdk/react" "1.7.31"
-    "@meshsdk/transaction" "1.7.31"
-    "@meshsdk/wallet" "1.7.31"
+    "@meshsdk/common" "1.8.12"
+    "@meshsdk/core-csl" "1.8.12"
+    "@meshsdk/core-cst" "1.8.12"
+    "@meshsdk/provider" "1.8.12"
+    "@meshsdk/react" "1.8.12"
+    "@meshsdk/transaction" "1.8.12"
+    "@meshsdk/wallet" "1.8.12"
 
-"@meshsdk/provider@1.7.31":
-  version "1.7.31"
-  resolved "https://registry.npmjs.org/@meshsdk/provider/-/provider-1.7.31.tgz"
-  integrity sha512-ptzynxJ1fLs23gATx/uhlY2XltnH+CqVCx4dMIjGMeWkYg86PIAObln7DsMuWivwQMysFf9abkBBUzxpoRfK/w==
+"@meshsdk/provider@1.8.12":
+  version "1.8.12"
+  resolved "https://registry.npmjs.org/@meshsdk/provider/-/provider-1.8.12.tgz"
+  integrity sha512-OTVB/1MUqzhDsPt6nVb3ALOxSAaozxMFW22BcPqKsLKWedFxG875zaC5jKc67s0xD7BCZSis7NiKVdv9MFTRTA==
   dependencies:
-    "@meshsdk/common" "1.7.31"
-    "@meshsdk/core-cst" "1.7.31"
+    "@meshsdk/common" "1.8.12"
+    "@meshsdk/core-cst" "1.8.12"
     "@utxorpc/sdk" "0.6.2"
     "@utxorpc/spec" "0.10.1"
     axios "^1.7.2"
 
-"@meshsdk/react@1.7.31":
-  version "1.7.31"
-  resolved "https://registry.npmjs.org/@meshsdk/react/-/react-1.7.31.tgz"
-  integrity sha512-AItHV4x5CGMBsDT1f1+Mh+XjcgIVnz86GZYpre0NtxmyxY849saKWcvctccUM43UCdDl5c9EOhNPaAlxzFazWA==
+"@meshsdk/react@^1.8.12", "@meshsdk/react@1.8.12", "@meshsdk/react@1.8.x":
+  version "1.8.12"
+  resolved "https://registry.npmjs.org/@meshsdk/react/-/react-1.8.12.tgz"
+  integrity sha512-PfABgIHeI7ZxJfapPfg/czZwns5ql5pRHPnFE4EKg3WDufmsSHMtW+Ao9khhW6vRRgzsls50kHWsr0QFxV/UYA==
   dependencies:
     "@fabianbormann/cardano-peer-connect" "^1.2.18"
-    "@meshsdk/common" "1.7.31"
-    "@meshsdk/transaction" "1.7.31"
-    "@meshsdk/wallet" "1.7.31"
+    "@meshsdk/common" "1.8.12"
+    "@meshsdk/transaction" "1.8.12"
+    "@meshsdk/wallet" "1.8.12"
     "@radix-ui/react-dialog" "^1.1.2"
     "@radix-ui/react-dropdown-menu" "^2.1.2"
     "@radix-ui/react-icons" "^1.3.2"
+    "@radix-ui/react-label" "^2.1.1"
     "@radix-ui/react-tooltip" "^1.1.4"
     class-variance-authority "^0.7.1"
+    tailwind-merge "^2.6.0"
     tailwindcss-animate "^1.0.7"
 
-"@meshsdk/transaction@1.7.31":
-  version "1.7.31"
-  resolved "https://registry.npmjs.org/@meshsdk/transaction/-/transaction-1.7.31.tgz"
-  integrity sha512-RN4GBAsGYcgti6X7pK5qPzm2+zZNRoLXhrz1EWrp71rxAHN5C2O7MFS8Qv3+p1K9OizpxBfs1yZU6qk61tf6AA==
+"@meshsdk/transaction@1.8.12":
+  version "1.8.12"
+  resolved "https://registry.npmjs.org/@meshsdk/transaction/-/transaction-1.8.12.tgz"
+  integrity sha512-aZCfMfBOd9oYHIvVpG0SIeJTFFfAz7BQM/Ea767CCpyIj6A72VX57n+c9lrNub47ZpimmgSEDJcAOLUSTqFTDw==
   dependencies:
-    "@meshsdk/common" "1.7.31"
-    "@meshsdk/core-csl" "1.7.31"
-    "@meshsdk/core-cst" "1.7.31"
+    "@meshsdk/common" "1.8.12"
+    "@meshsdk/core-csl" "1.8.12"
+    "@meshsdk/core-cst" "1.8.12"
     json-bigint "^1.0.0"
 
-"@meshsdk/wallet@1.7.31":
-  version "1.7.31"
-  resolved "https://registry.npmjs.org/@meshsdk/wallet/-/wallet-1.7.31.tgz"
-  integrity sha512-NWPZrTL3xLURFuxPcKcoJqmwJkwqDrIJBqDMHZk9u5MykRSw1p3cxxl5hrKbkRmlEblOJ2m9O7dYvcjQKxXskA==
+"@meshsdk/wallet@1.8.12":
+  version "1.8.12"
+  resolved "https://registry.npmjs.org/@meshsdk/wallet/-/wallet-1.8.12.tgz"
+  integrity sha512-OR0tY4KinI/s7pEgzZeG70HWYit8Ftum6+dZV31Gchex2EfOzdcY9GKg9/VlC7saO3Kztguj06ErMnE1wPiykg==
   dependencies:
-    "@meshsdk/common" "1.7.31"
-    "@meshsdk/core-csl" "1.7.31"
-    "@meshsdk/core-cst" "1.7.31"
-    "@meshsdk/transaction" "1.7.31"
-    "@nufi/dapp-client-cardano" "0.3.5"
-    "@nufi/dapp-client-core" "0.3.5"
+    "@meshsdk/common" "1.8.12"
+    "@meshsdk/core-csl" "1.8.12"
+    "@meshsdk/core-cst" "1.8.12"
+    "@meshsdk/transaction" "1.8.12"
+    "@simplewebauthn/browser" "^13.0.0"
 
 "@multiformats/dns@^1.0.3":
   version "1.0.6"
@@ -995,10 +992,10 @@
   dependencies:
     glob "7.1.7"
 
-"@next/swc-darwin-arm64@15.1.2":
+"@next/swc-win32-x64-msvc@15.1.2":
   version "15.1.2"
-  resolved "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-15.1.2.tgz"
-  integrity sha512-b9TN7q+j5/7+rGLhFAVZiKJGIASuo8tWvInGfAd8wsULjB1uNGRCj1z1WZwwPWzVQbIKWFYqc+9L7W09qwt52w==
+  resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-15.1.2.tgz"
+  integrity sha512-D3cNA8NoT3aWISWmo7HF5Eyko/0OdOO+VagkoJuiTk7pyX3P/b+n8XA/MYvyR+xSVcbKn68B1rY9fgqjNISqzQ==
 
 "@noble/hashes@^1.2.0":
   version "1.6.1"
@@ -1167,18 +1164,6 @@
     read-package-json-fast "^3.0.0"
     which "^3.0.0"
 
-"@nufi/dapp-client-cardano@0.3.5":
-  version "0.3.5"
-  resolved "https://registry.npmjs.org/@nufi/dapp-client-cardano/-/dapp-client-cardano-0.3.5.tgz"
-  integrity sha512-1Auc7fsCZHRYaraniqCheeDS5eP1fmomps9N0KKEEgk2DFTKxdzJnkScHdep/p916EhzIW42niOcGR8sC4F5bQ==
-  dependencies:
-    "@nufi/dapp-client-core" "0.3.5"
-
-"@nufi/dapp-client-core@0.3.5":
-  version "0.3.5"
-  resolved "https://registry.npmjs.org/@nufi/dapp-client-core/-/dapp-client-core-0.3.5.tgz"
-  integrity sha512-gvX9u9v5xLUMDWITYPqDr/QTWFTDgTbprz2Wn1YQJs7WW2JLuaOGmDQn4ZWsv54VsGt/j/paRmGCbaqZYDJECQ==
-
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"
 
@@ -1208,6 +1193,11 @@
   version "1.1.0"
   resolved "https://registry.npmjs.org/@radix-ui/react-compose-refs/-/react-compose-refs-1.1.0.tgz"
   integrity sha512-b4inOtiaOnYf9KWyO3jAeeCG6FeyfY6ldiEPanbUjWd+xIk5wZeHa8yVwmrJ2vderhu/BQvzCrJI0lHd+wIiqw==
+
+"@radix-ui/react-compose-refs@1.1.1":
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/@radix-ui/react-compose-refs/-/react-compose-refs-1.1.1.tgz"
+  integrity sha512-Y9VzoRDSJtgFMUCoiZBDVo084VQ5hfpXxVE+NgkdNsjiDBByiImMZKKhxMwCbdHvhlENG6a833CbFkOQvTricw==
 
 "@radix-ui/react-context@1.1.0":
   version "1.1.0"
@@ -1294,6 +1284,13 @@
   dependencies:
     "@radix-ui/react-use-layout-effect" "1.1.0"
 
+"@radix-ui/react-label@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.npmjs.org/@radix-ui/react-label/-/react-label-2.1.1.tgz"
+  integrity sha512-UUw5E4e/2+4kFMH7+YxORXGWggtY6sM8WIwh5RZchhLuUg2H1hc98Py+pr8HMz6rdaYrK2t296ZEjYLOCO5uUw==
+  dependencies:
+    "@radix-ui/react-primitive" "2.0.1"
+
 "@radix-ui/react-menu@2.1.2":
   version "2.1.2"
   resolved "https://registry.npmjs.org/@radix-ui/react-menu/-/react-menu-2.1.2.tgz"
@@ -1357,6 +1354,13 @@
   dependencies:
     "@radix-ui/react-slot" "1.1.0"
 
+"@radix-ui/react-primitive@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@radix-ui/react-primitive/-/react-primitive-2.0.1.tgz"
+  integrity sha512-sHCWTtxwNn3L3fH8qAfnF3WbUZycW93SM1j3NFDzXBiz8D6F5UTTy8G1+WFEaiCdvCVRJWj6N2R4Xq6HdiHmDg==
+  dependencies:
+    "@radix-ui/react-slot" "1.1.1"
+
 "@radix-ui/react-roving-focus@1.1.0":
   version "1.1.0"
   resolved "https://registry.npmjs.org/@radix-ui/react-roving-focus/-/react-roving-focus-1.1.0.tgz"
@@ -1378,6 +1382,13 @@
   integrity sha512-FUCf5XMfmW4dtYl69pdS4DbxKy8nj4M7SafBgPllysxmdachynNflAdp/gCsnYWNDnge6tI9onzMp5ARYc1KNw==
   dependencies:
     "@radix-ui/react-compose-refs" "1.1.0"
+
+"@radix-ui/react-slot@1.1.1":
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/@radix-ui/react-slot/-/react-slot-1.1.1.tgz"
+  integrity sha512-RApLLOcINYJA+dMVbOju7MYv1Mb2EBp2nH4HdDzXTSyaR5optlm6Otrz1euW3HbdOR8UmmFK06TD+A9frYWv+g==
+  dependencies:
+    "@radix-ui/react-compose-refs" "1.1.1"
 
 "@radix-ui/react-tooltip@^1.1.4":
   version "1.1.4"
@@ -1472,15 +1483,15 @@
   resolved "https://registry.npmjs.org/@scure/base/-/base-1.2.1.tgz"
   integrity sha512-DGmGtC8Tt63J5GfHgfl5CuAXh96VF/LD8K9Hr/Gv0J2lAoRGlPOMpqMpMbCTOoOJMZCk2Xt+DskdDyn6dEFdzQ==
 
-"@sidan-lab/sidan-csl-rs-browser@0.9.9":
-  version "0.9.9"
-  resolved "https://registry.npmjs.org/@sidan-lab/sidan-csl-rs-browser/-/sidan-csl-rs-browser-0.9.9.tgz"
-  integrity sha512-hsc+f2EaMYcLE8k2aHUhfbR2ma1qycjdyrfvvEVDsIULmG0eWzgx+oZFGMTJBEERRqbQL0BBE7ya9oGLUQmSoQ==
+"@sidan-lab/sidan-csl-rs-browser@0.9.16":
+  version "0.9.16"
+  resolved "https://registry.npmjs.org/@sidan-lab/sidan-csl-rs-browser/-/sidan-csl-rs-browser-0.9.16.tgz"
+  integrity sha512-cqAgCFGn6ggoI85DQF2EUCvFUVL+iWOlvseXXCl4Y0LMWVtNKZBbSvsgQQhVFzZ7N+lJ/yS7edlaDyh+Q74qcw==
 
-"@sidan-lab/sidan-csl-rs-nodejs@0.9.9":
-  version "0.9.9"
-  resolved "https://registry.npmjs.org/@sidan-lab/sidan-csl-rs-nodejs/-/sidan-csl-rs-nodejs-0.9.9.tgz"
-  integrity sha512-ZNUv8fWYD5hZrvVpTr7ytMVyDVJufO3hHuQI5rdekXfK8gTj6t0qakoNldhoD8uxvULQsxLY2mTx/0FBQTMPKg==
+"@sidan-lab/sidan-csl-rs-nodejs@0.9.16":
+  version "0.9.16"
+  resolved "https://registry.npmjs.org/@sidan-lab/sidan-csl-rs-nodejs/-/sidan-csl-rs-nodejs-0.9.16.tgz"
+  integrity sha512-CFX6WzuHoD3NjspLs/sNU7WaQiJn/spHnGSjIL1chYFfEmO6JjmUgfCRoVUEm4eKlLjRfFV2/2rDRJYuvanwzg==
 
 "@sigstore/bundle@^1.1.0":
   version "1.1.0"
@@ -1514,6 +1525,11 @@
     default-gateway "^6.0.3"
     unordered-array-remove "^1.0.2"
     xml2js "^0.6.0"
+
+"@simplewebauthn/browser@^13.0.0":
+  version "13.1.0"
+  resolved "https://registry.npmjs.org/@simplewebauthn/browser/-/browser-13.1.0.tgz"
+  integrity sha512-WuHZ/PYvyPJ9nxSzgHtOEjogBhwJfC8xzYkPC+rR/+8chl/ft4ngjiK8kSU5HtRJfczupyOh33b25TjYbvwAcg==
 
 "@stricahq/bip32ed25519@^1.1.0":
   version "1.1.0"
@@ -3670,11 +3686,6 @@ fsa-chunk-store@^1.3.0:
   integrity sha512-0WCfuxqqSB6Tz/g7Ar/nwAxMoigXaIXuvfrnLIEFYIA9uc6w9eNaHuBGzU1X3lyM4cpLKCOTUmKAA/gCiTvzMQ==
   dependencies:
     filename-reserved-regex "^3.0.0"
-
-fsevents@~2.3.2:
-  version "2.3.3"
-  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz"
-  integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
 function-bind@^1.1.1:
   version "1.1.1"
@@ -6631,6 +6642,11 @@ swiper@^11.1.15:
   resolved "https://registry.npmjs.org/swiper/-/swiper-11.1.15.tgz"
   integrity sha512-IzWeU34WwC7gbhjKsjkImTuCRf+lRbO6cnxMGs88iVNKDwV+xQpBCJxZ4bNH6gSrIbbyVJ1kuGzo3JTtz//CBw==
 
+tailwind-merge@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.npmjs.org/tailwind-merge/-/tailwind-merge-2.6.0.tgz"
+  integrity sha512-P+Vu1qXfzediirmHOC3xKGAYeZtPcV9g76X+xg2FD4tYgR71ewMA35Y3sCz3zhiN/dwefRpJX0yBcgwi1fXNQA==
+
 tailwind-scrollbar-hide@^1.1.7:
   version "1.1.7"
   resolved "https://registry.npmjs.org/tailwind-scrollbar-hide/-/tailwind-scrollbar-hide-1.1.7.tgz"
@@ -6967,9 +6983,9 @@ undici-types@~5.26.4:
   integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
 undici@^5.28.3:
-  version "5.28.4"
-  resolved "https://registry.npmjs.org/undici/-/undici-5.28.4.tgz"
-  integrity sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==
+  version "5.28.5"
+  resolved "https://registry.npmjs.org/undici/-/undici-5.28.5.tgz"
+  integrity sha512-zICwjrDrcrUE0pyyJc1I2QzBkLM8FINsgOrt6WjA+BgajVq9Nxu2PbFFXUrAggLfDXlZGZBVZYw7WNV5KiBiBA==
   dependencies:
     "@fastify/busboy" "^2.0.0"
 

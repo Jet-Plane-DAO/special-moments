@@ -1,4 +1,4 @@
-import { toPrecompileInputUnit, toPreDefinedUnit, toUserDefinedUnit, useCompileCampaign } from "@jetplane/velocity-tools";
+import { toPrecompileInputUnit, toPreDefinedUnit, toUserDefinedUnit } from "@jetplane/velocity-tools";
 import { useEffect, useMemo, useState } from "react";
 import useAsset from "../hooks/useAsset";
 import { AddCaptionHome, SectionChooseFrame, PFPHome, ReviewMintHome, UploadImageHome } from "../sections";
@@ -22,7 +22,6 @@ enum Step {
 }
 
 const Home = () => {
-    const { quote, compile, status, setUserDefinedInput } = useCompileCampaign();
 
     const [imageInput, setImageInput] = useState<any>(null);
     const [frameInput, setFrameInput] = useState<any>(null);
@@ -37,9 +36,16 @@ const Home = () => {
     const [captionText, setCaptionText] = useState<any>("");
     const { myAssets } = useAsset();
 
-    const { campaignConfig, connected, connecting } = useConnectedWallet()
+    const { campaignConfig, connected, connecting, quote, compile, status, setUserDefinedInput } = useConnectedWallet()
     const { frames } = useFrame(campaignConfig)
     const { postcards } = usePostcard(campaignConfig)
+
+    // useEffect(() => {
+    //     if (connected) {
+    //         console.log("connected");
+    //         check();
+    //     }
+    // }, [connected]);
 
     useEffect(() => {
         if (step === Step.REVIEW) {
@@ -60,7 +66,7 @@ const Home = () => {
     }, [quoteResponse]);
 
     const isOnProcessing = useMemo(() => {
-
+        console.log
         if (connecting) {
             return true
         }
