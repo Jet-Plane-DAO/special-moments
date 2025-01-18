@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 
 export default function useConnectedWallet() {
     const { wallet, connected, connecting } = useWallet();
-    const { campaignConfig, check, status } = useCompileCampaign();
+    const { check, campaignConfig, status, quote, compile, setUserDefinedInput } = useCompileCampaign();
 
     useEffect(() => {
         if (wallet && connected && status === CompileStatusEnum.INIT) {
@@ -16,7 +16,7 @@ export default function useConnectedWallet() {
             check();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [wallet, connected,]);
+    }, [wallet, connected]);
 
-    return { wallet, connecting, connected, campaignConfig }
+    return { wallet, connecting, connected, campaignConfig, quote, compile, status, setUserDefinedInput }
 }
