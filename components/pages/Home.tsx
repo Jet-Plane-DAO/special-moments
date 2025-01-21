@@ -240,7 +240,7 @@ const Home = () => {
 
     if (step === Step.MINTING) {
         return <Layout
-            title="On Progress"
+            title="Processing Request"
             headerComponent={
                 <ButtonHeader
                     action={() => setStep(Step.FRAME)}
@@ -253,7 +253,7 @@ const Home = () => {
                 <div className="w-2/3">
                     <progress className="progress progress-primary w-full h-7" value={mintingProgress.toString()} max="100"></progress>
                 </div>
-                <h3>Minting is on progress: <span>{mintingProgress}%</span> </h3>
+                <h3>Transaction is being processing and the postcard will be sent to their wallet once minted</h3>
             </div>
         </Layout>
     }
