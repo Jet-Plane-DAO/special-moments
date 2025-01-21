@@ -30,7 +30,6 @@ export default function PFPHome({
   headerCTA,
   walletOnAction,
 }: PFPHome) {
-  console.log(assets?.length)
   const [selected, setSelected] = useState<any>(null);
   const [page, setPage] = useState(1)
   const pageTotal = useMemo(() => {

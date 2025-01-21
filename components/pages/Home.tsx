@@ -9,7 +9,7 @@ import useConnectedWallet from "../hooks/useConnectedWallet";
 import LoadingFullLayout from "../shared/Loading/LoadingFullLayout";
 import Layout from "../shared/Layout";
 import ButtonConnect from "../shared/ButtonConnect";
-import { useWallet } from "@meshsdk/react";
+import { ButtonHeader } from "../shared";
 
 enum Step {
     IMAGE,
@@ -36,6 +36,7 @@ const Home = () => {
     const [tempImageFile, setTempImageFile] = useState<any>(null);
     const [captionText, setCaptionText] = useState<any>("");
     const { myAssets } = useAsset();
+    const [mintingProgress, setMintingProgress] = useState<number>(80)
 
     const { campaignConfig, connected, connecting, quote, compile, status, setUserDefinedInput } = useConnectedWallet()
     const { frames } = useFrame(campaignConfig)
@@ -206,7 +207,7 @@ const Home = () => {
                 headerCTA={{
                     label: "Cancel",
                     action: () => {
-                        setQuoteResponse(null);                        
+                        setQuoteResponse(null);
                         return setStep(Step.FRAME);
                     },
                 }}
@@ -217,22 +218,7 @@ const Home = () => {
                 previewFrame={frameInput}
                 onMint={async () => {
                     if (quoteResponse) {
-                        // console.log([
-                        //     { unit: toUserDefinedUnit(imageInput.id, "image") },
-                        //     { unit: toUserDefinedUnit(captionInput?.id, "caption") },
-                        //     { unit: toPreDefinedUnit(frameInput?.id, "frames") },
-                        //     {
-                        //         unit: toPreDefinedUnit(postcardInput?.id, "postcards"),
-                        //     },
-                        //     pfpInput,
-                        //     {
-                        //         unit: toPrecompileInputUnit(campaignConfig.id, quoteResponse?.quote?.preview?.path.split("/").pop() ?? ""),
-                        //     },
-                        // ]);
-                        // setUserDefinedInput("image", "postcard", {}, tempImageFile)
-                        //   .then((result) => {
-                        console.log('ALL', imageInput.id, captionInput?.id, frameInput?.id, postcardInput?.id, pfpInput)
-                        compile("postcard", [
+                        const compileID = await compile("postcard", [
                             { unit: toUserDefinedUnit(imageInput.id, "image") },
                             { unit: toUserDefinedUnit(captionInput?.id, "caption") },
                             { unit: toPreDefinedUnit(frameInput?.id, "frames") },
@@ -244,14 +230,32 @@ const Home = () => {
                                 unit: toPrecompileInputUnit(campaignConfig.id, quoteResponse?.quote?.preview?.path.split("/").pop() ?? ""),
                             },
                         ]);
-                        // })
-                        // .finally(() => {
-                        //   setUploading(false);
-                        // });
+                        console.log('compileID:', compileID)
+                        setStep(Step.MINTING)
                     }
                 }}
             />
         );
+    }
+
+    if (step === Step.MINTING) {
+        return <Layout
+            title="On Progress"
+            headerComponent={
+                <ButtonHeader
+                    action={() => setStep(Step.FRAME)}
+                    label={"Restart"}
+                />
+
+            }
+        >
+            <div className="flex items-center flex-col justify-center">
+                <div className="w-2/3">
+                    <progress className="progress progress-primary w-full h-7" value={mintingProgress.toString()} max="100"></progress>
+                </div>
+                <h3>Minting is on progress: <span>{mintingProgress}%</span> </h3>
+            </div>
+        </Layout>
     }
 };
 export default Home;
