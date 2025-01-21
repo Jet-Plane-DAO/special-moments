@@ -1,4 +1,4 @@
-import { CompileStatusEnum, toPrecompileInputUnit, toPreDefinedUnit, toUserDefinedUnit, useCompileCampaign } from "@jetplane/velocity-tools";
+import { toPrecompileInputUnit, toPreDefinedUnit, toUserDefinedUnit } from "@jetplane/velocity-tools";
 import { useEffect, useMemo, useState } from "react";
 import useAsset from "../hooks/useAsset";
 import { AddCaptionHome, SectionChooseFrame, PFPHome, ReviewMintHome, UploadImageHome } from "../sections";
@@ -23,9 +23,6 @@ enum Step {
 }
 
 const Home = () => {
-    const { wallet, connected, connecting } = useWallet();
-    const { campaignConfig, check, status, quote, setUserDefinedInput, compile} = useCompileCampaign();
-
 
     const [imageInput, setImageInput] = useState<any>(null);
     const [frameInput, setFrameInput] = useState<any>(null);
@@ -40,21 +37,9 @@ const Home = () => {
     const [captionText, setCaptionText] = useState<any>("");
     const { myAssets } = useAsset();
 
-    // const { connected, connecting, campaignConfig } = useConnectedWallet()
+    const { campaignConfig, connected, connecting, quote, compile, status, setUserDefinedInput } = useConnectedWallet()
     const { frames } = useFrame(campaignConfig)
     const { postcards } = usePostcard(campaignConfig)
-
-    useEffect(() => {
-        if (wallet && connected && status === CompileStatusEnum.INIT) {
-            wallet.getNetworkId().then((networkId: number) => {
-                if (networkId !== parseInt(`${process.env.NEXT_PUBLIC_NETWORK}`)) {
-                    alert("Please switch to a wallet on the correct network");
-                }
-            });
-            check();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [wallet, connected,]);
 
     useEffect(() => {
         if (step === Step.REVIEW) {
@@ -75,7 +60,7 @@ const Home = () => {
     }, [quoteResponse]);
 
     const isOnProcessing = useMemo(() => {
-
+        console.log
         if (connecting) {
             return true
         }
@@ -220,7 +205,10 @@ const Home = () => {
             <ReviewMintHome
                 headerCTA={{
                     label: "Cancel",
-                    action: () => setStep(Step.FRAME),
+                    action: () => {
+                        setQuoteResponse(null);                        
+                        return setStep(Step.FRAME);
+                    },
                 }}
                 quote={quoteResponse}
                 previewImageFile={tempImageFile}
