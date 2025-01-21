@@ -15,7 +15,7 @@ export default function FPFCard({ item }: FPFCardProps) {
     }
     return item?.image
   }, [item])
-  console.log(itemImage)
+  
   return (
     <>
       <div className="pfp-ratio hover:opacity-80 transition-opacity duration-500">
