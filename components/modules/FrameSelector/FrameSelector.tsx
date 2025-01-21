@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Carousel from "../../shared/Carousel/Carousel";
 // import { FrameSelectorTypes } from "./FrameSelectorTypes";
 import Image from "next/image";
@@ -16,6 +16,23 @@ export default function FrameSelector({
   className = "",
 }: FrameSelectorTypes) {
   const [selected, setSelected] = useState<any>(null);
+  
+  const handleOnSelect = useCallback((item: any) => {
+    setSelected((_prev: any) => {
+      if (!_prev) {
+        onSelect(item);
+        return item;
+      }
+      if (_prev?.id === item.id) {
+        onSelect(null);
+        return null;
+      }
+      onSelect(item);
+      return item;
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div>
       <div className={["frame-carousel pb-10", className].join(" ")}>
@@ -23,20 +40,7 @@ export default function FrameSelector({
           renderItem={(item) => {
             return (
               <button
-                onClick={() => {
-                  setSelected((_prev: any) => {
-                    if (!_prev) {
-                      onSelect(item);
-                      return item;
-                    }
-                    if (_prev?.id === item.id) {
-                      onSelect(null);
-                      return null;
-                    }
-                    onSelect(item);
-                    return item;
-                  });
-                }}
+                onClick={() => handleOnSelect(item)}
                 className="flex w-full h-full bg-transparent px-0 m-0 border-none"
               >
                 <div className="relative frame-ratio w-full">
@@ -54,12 +58,12 @@ export default function FrameSelector({
           }}
           slides={frames ?? []}
           slidesPerView={5}
-          
+
           breakpoints={{
             [768]: {
-                slidesPerView: 10
+              slidesPerView: 10
             }
-        }}
+          }}
         />
       </div>
     </div>
