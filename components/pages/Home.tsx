@@ -61,7 +61,6 @@ const Home = () => {
     }, [quoteResponse]);
 
     const isOnProcessing = useMemo(() => {
-        console.log
         if (connecting) {
             return true
         }
@@ -230,7 +229,6 @@ const Home = () => {
                                 unit: toPrecompileInputUnit(campaignConfig.id, quoteResponse?.quote?.preview?.path.split("/").pop() ?? ""),
                             },
                         ]);
-                        console.log('compileID:', compileID)
                         setStep(Step.MINTING)
                     }
                 }}

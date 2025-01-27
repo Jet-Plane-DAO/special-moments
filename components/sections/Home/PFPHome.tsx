@@ -61,6 +61,7 @@ export default function PFPHome({
     >
       <div className="mb-12 md:columns-6 sm:columns-4 columns-3 gap-2">
         {listedPage?.map((asset: any, index: number) => {
+          if (!asset.onchain_metadata) return "";
           const { onchain_metadata: item, unit } = asset ?? {};
           return (
             <div className="flex justify-center mb-2" key={index}>
